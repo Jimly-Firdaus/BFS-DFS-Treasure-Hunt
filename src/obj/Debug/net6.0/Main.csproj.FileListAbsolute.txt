@@ -1,0 +1,45 @@
+D:\C#\Main\Main\obj\Debug\net6.0\Main.csproj.AssemblyReference.cache
+D:\C#\Main\Main\obj\Debug\net6.0\Main.GeneratedMSBuildEditorConfig.editorconfig
+D:\C#\Main\Main\obj\Debug\net6.0\Main.AssemblyInfoInputs.cache
+D:\C#\Main\Main\obj\Debug\net6.0\Main.AssemblyInfo.cs
+D:\C#\Main\Main\obj\Debug\net6.0\Main.csproj.CoreCompileInputs.cache
+D:\C#\Main\Main\bin\Debug\net6.0\Main.exe
+D:\C#\Main\Main\bin\Debug\net6.0\Main.deps.json
+D:\C#\Main\Main\bin\Debug\net6.0\Main.runtimeconfig.json
+D:\C#\Main\Main\bin\Debug\net6.0\Main.dll
+D:\C#\Main\Main\bin\Debug\net6.0\Main.pdb
+D:\C#\Main\Main\obj\Debug\net6.0\Main.dll
+D:\C#\Main\Main\obj\Debug\net6.0\refint\Main.dll
+D:\C#\Main\Main\obj\Debug\net6.0\Main.pdb
+D:\C#\Main\Main\obj\Debug\net6.0\Main.genruntimeconfig.cache
+D:\C#\Main\Main\obj\Debug\net6.0\ref\Main.dll
+D:\School\Institut Teknologi Bandung\Tahun 2\Semester 2\Algorthm Strategies\Tugas Besar\Tubes2_Goblin\bin\Debug\net6.0\Main.exe
+D:\School\Institut Teknologi Bandung\Tahun 2\Semester 2\Algorthm Strategies\Tugas Besar\Tubes2_Goblin\bin\Debug\net6.0\Main.deps.json
+D:\School\Institut Teknologi Bandung\Tahun 2\Semester 2\Algorthm Strategies\Tugas Besar\Tubes2_Goblin\bin\Debug\net6.0\Main.runtimeconfig.json
+D:\School\Institut Teknologi Bandung\Tahun 2\Semester 2\Algorthm Strategies\Tugas Besar\Tubes2_Goblin\bin\Debug\net6.0\Main.dll
+D:\School\Institut Teknologi Bandung\Tahun 2\Semester 2\Algorthm Strategies\Tugas Besar\Tubes2_Goblin\bin\Debug\net6.0\Main.pdb
+D:\School\Institut Teknologi Bandung\Tahun 2\Semester 2\Algorthm Strategies\Tugas Besar\Tubes2_Goblin\obj\Debug\net6.0\Main.csproj.AssemblyReference.cache
+D:\School\Institut Teknologi Bandung\Tahun 2\Semester 2\Algorthm Strategies\Tugas Besar\Tubes2_Goblin\obj\Debug\net6.0\Main.GeneratedMSBuildEditorConfig.editorconfig
+D:\School\Institut Teknologi Bandung\Tahun 2\Semester 2\Algorthm Strategies\Tugas Besar\Tubes2_Goblin\obj\Debug\net6.0\Main.AssemblyInfoInputs.cache
+D:\School\Institut Teknologi Bandung\Tahun 2\Semester 2\Algorthm Strategies\Tugas Besar\Tubes2_Goblin\obj\Debug\net6.0\Main.AssemblyInfo.cs
+D:\School\Institut Teknologi Bandung\Tahun 2\Semester 2\Algorthm Strategies\Tugas Besar\Tubes2_Goblin\obj\Debug\net6.0\Main.csproj.CoreCompileInputs.cache
+D:\School\Institut Teknologi Bandung\Tahun 2\Semester 2\Algorthm Strategies\Tugas Besar\Tubes2_Goblin\obj\Debug\net6.0\Main.dll
+D:\School\Institut Teknologi Bandung\Tahun 2\Semester 2\Algorthm Strategies\Tugas Besar\Tubes2_Goblin\obj\Debug\net6.0\refint\Main.dll
+D:\School\Institut Teknologi Bandung\Tahun 2\Semester 2\Algorthm Strategies\Tugas Besar\Tubes2_Goblin\obj\Debug\net6.0\Main.pdb
+D:\School\Institut Teknologi Bandung\Tahun 2\Semester 2\Algorthm Strategies\Tugas Besar\Tubes2_Goblin\obj\Debug\net6.0\Main.genruntimeconfig.cache
+D:\School\Institut Teknologi Bandung\Tahun 2\Semester 2\Algorthm Strategies\Tugas Besar\Tubes2_Goblin\obj\Debug\net6.0\ref\Main.dll
+D:\School\Institut Teknologi Bandung\Tahun 2\Semester 2\Algorthm Strategies\Tugas Besar\Tubes2_Goblin\src\bin\Debug\net6.0\Main.exe
+D:\School\Institut Teknologi Bandung\Tahun 2\Semester 2\Algorthm Strategies\Tugas Besar\Tubes2_Goblin\src\bin\Debug\net6.0\Main.deps.json
+D:\School\Institut Teknologi Bandung\Tahun 2\Semester 2\Algorthm Strategies\Tugas Besar\Tubes2_Goblin\src\bin\Debug\net6.0\Main.runtimeconfig.json
+D:\School\Institut Teknologi Bandung\Tahun 2\Semester 2\Algorthm Strategies\Tugas Besar\Tubes2_Goblin\src\bin\Debug\net6.0\Main.dll
+D:\School\Institut Teknologi Bandung\Tahun 2\Semester 2\Algorthm Strategies\Tugas Besar\Tubes2_Goblin\src\bin\Debug\net6.0\Main.pdb
+D:\School\Institut Teknologi Bandung\Tahun 2\Semester 2\Algorthm Strategies\Tugas Besar\Tubes2_Goblin\src\obj\Debug\net6.0\Main.csproj.AssemblyReference.cache
+D:\School\Institut Teknologi Bandung\Tahun 2\Semester 2\Algorthm Strategies\Tugas Besar\Tubes2_Goblin\src\obj\Debug\net6.0\Main.GeneratedMSBuildEditorConfig.editorconfig
+D:\School\Institut Teknologi Bandung\Tahun 2\Semester 2\Algorthm Strategies\Tugas Besar\Tubes2_Goblin\src\obj\Debug\net6.0\Main.AssemblyInfoInputs.cache
+D:\School\Institut Teknologi Bandung\Tahun 2\Semester 2\Algorthm Strategies\Tugas Besar\Tubes2_Goblin\src\obj\Debug\net6.0\Main.AssemblyInfo.cs
+D:\School\Institut Teknologi Bandung\Tahun 2\Semester 2\Algorthm Strategies\Tugas Besar\Tubes2_Goblin\src\obj\Debug\net6.0\Main.csproj.CoreCompileInputs.cache
+D:\School\Institut Teknologi Bandung\Tahun 2\Semester 2\Algorthm Strategies\Tugas Besar\Tubes2_Goblin\src\obj\Debug\net6.0\Main.dll
+D:\School\Institut Teknologi Bandung\Tahun 2\Semester 2\Algorthm Strategies\Tugas Besar\Tubes2_Goblin\src\obj\Debug\net6.0\refint\Main.dll
+D:\School\Institut Teknologi Bandung\Tahun 2\Semester 2\Algorthm Strategies\Tugas Besar\Tubes2_Goblin\src\obj\Debug\net6.0\Main.pdb
+D:\School\Institut Teknologi Bandung\Tahun 2\Semester 2\Algorthm Strategies\Tugas Besar\Tubes2_Goblin\src\obj\Debug\net6.0\Main.genruntimeconfig.cache
+D:\School\Institut Teknologi Bandung\Tahun 2\Semester 2\Algorthm Strategies\Tugas Besar\Tubes2_Goblin\src\obj\Debug\net6.0\ref\Main.dll
