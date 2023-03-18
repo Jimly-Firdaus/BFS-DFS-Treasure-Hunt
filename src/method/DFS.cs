@@ -20,12 +20,9 @@ namespace Main.method
             List<char> rute = new List<char>();
             List<char> temp = new List<char>();
             vertex[(row, col)] = true;
-            Console.WriteLine("CurrentPosition: " + row.ToString() + " " + col.ToString());
-            Console.WriteLine(stack.Peek().ToString());
             while (!checkAllVertexIsTaken(vertex))
             {
                 char direction = getAvailableDirection(map, row, col, vertex);
-                Console.WriteLine("current direction : " + direction);
                 if (direction == 'L')
                 {
                     col -= 1;
@@ -53,7 +50,6 @@ namespace Main.method
                 }
                 else if (direction == 'B')
                 {
-                    Console.WriteLine("We are back tracking");
                     stack.Pop();
                     (row, col) = stack.Peek();
                     Console.WriteLine(row.ToString() + " " + col.ToString());   
