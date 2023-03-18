@@ -9,8 +9,6 @@ namespace Main
     {
         static void Main(String[] args)
         {
-            try
-            {
                 Map map = new Map();
                 map.getMap();
                 map.PrintMap();
@@ -23,10 +21,6 @@ namespace Main
                     Console.WriteLine(c + " ");
                 }
                 Console.ReadLine();
-            }catch (Exception e)
-            {
-                Console.WriteLine(e.ToString());
-            }
             
         }
     }

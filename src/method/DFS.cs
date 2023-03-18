@@ -20,9 +20,11 @@ namespace Main.method
             List<char> rute = new List<char>();
             List<char> temp = new List<char>();
             vertex[(row, col)] = true;
-            while (!checkAllVertexIsTaken(vertex))
+            while (!(stack.Count == 0))
             {
                 char direction = getAvailableDirection(map, row, col, vertex);
+                // Console.WriteLine("This is current location: " + row.ToString() + " " + col.ToString());
+                // Console.WriteLine("This is direction : " + direction);
                 if (direction == 'L')
                 {
                     col -= 1;
@@ -51,8 +53,10 @@ namespace Main.method
                 else if (direction == 'B')
                 {
                     stack.Pop();
-                    (row, col) = stack.Peek();
-                    Console.WriteLine(row.ToString() + " " + col.ToString());   
+                    if(stack.Count > 0)
+                    {
+                        (row, col) = stack.Peek();
+                    }
                 }
                 if(checkTreasure(map, row, col) && !vertex[(row, col)])
                 {
@@ -93,26 +97,6 @@ namespace Main.method
                 }
             }
             return vertex;
-        }
-
-        public static bool checkAllVertexIsTaken(Dictionary<(int, int), bool> vertex)
-        {
-            int n = 0;
-            foreach(KeyValuePair<(int, int), bool> pair in vertex)
-            {
-                if(pair.Value)
-                {
-                    n += 1;
-                }
-            }
-            if(n == vertex.Count)
-            {
-                return true;
-            }
-            else
-            {
-                return false;
-            }
         }
 
         public static char getAvailableDirection(Map map, int currentRow, int currentCol, Dictionary<(int, int), bool> vertex)
