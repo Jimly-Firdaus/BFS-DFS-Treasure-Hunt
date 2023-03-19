@@ -11,7 +11,7 @@ namespace Goblin
     public static class Testing
     {
         // change the `Test` to `Main` if want to test partially
-        static void Test(string[] args)
+        static void Main(string[] args)
         {
             char[,] maze = new char[5, 5]
             {
@@ -22,15 +22,25 @@ namespace Goblin
                 {'R', 'X', 'R', 'X', 'R'}
             };
             Goblin goblin = new Goblin(2, maze);
+            Console.WriteLine("----------------BFS----------------");
             goblin.SolveWithBFS();
-            List<char> route = goblin.GetRoute();
+            List<char> bfsRoute = goblin.GetRoute();
             Console.WriteLine("Total nodes: " + goblin.TotalVisitedBFSNodes());
             Console.Write("Route : ");
-            for (int i = 0; i < route.Count; i++)
+            for (int i = 0; i < bfsRoute.Count; i++)
             {
-                Console.Write(route[i] + " ");
+                Console.Write(bfsRoute[i] + " ");
             }
-            Console.WriteLine("\nTotal Direction : " + route.Count);
+            Console.WriteLine("\nTotal Direction : " + bfsRoute.Count);
+            Console.WriteLine("----------------DFS----------------");
+            goblin.SolveWithDFS();
+            List<char> dfsRoute = goblin.GetRoute();
+            Console.Write("Route : ");
+            for (int i = 0; i < dfsRoute.Count; i++)
+            {
+                Console.Write(dfsRoute[i] + " ");
+            }
+            Console.WriteLine("\nTotal Direction : " + dfsRoute.Count);
         }
     }
 }
