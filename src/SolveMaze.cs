@@ -89,40 +89,8 @@ namespace Goblin
                     recentVisitedTreasure.Add(this.position);
                 }
 
-                // Path Find Priority : left, up, right, down
-                // Enqueue every node if it hasn't been visited yet + save its history move
-                if (this.position.col - 1 >= 0 && this.maze[this.position.row, this.position.col - 1] != 'X')
-                {
-                    if (!currentMoveData.IsVisited((this.position.row, this.position.col - 1)))
-                    {
-                        List<char> temp = new List<char>(prevUsedDirection) { 'L' };
-                        bfsQueue.Enqueue(new BFSNode((this.position.row, this.position.col - 1), temp, currentVisitedVertex, recentVisitedTreasure));
-                    }
-                }
-                if (this.position.row - 1 >= 0 && this.maze[this.position.row - 1, this.position.col] != 'X')
-                {
-                    if (!currentMoveData.IsVisited((this.position.row - 1, this.position.col)))
-                    {
-                        List<char> temp = new List<char>(prevUsedDirection) { 'U' }; // ToList() to copy prevUsedDirection since assignment to object is a reference
-                        bfsQueue.Enqueue(new BFSNode((this.position.row - 1, this.position.col), temp, currentVisitedVertex, recentVisitedTreasure));
-                    }
-                }
-                if (this.position.col + 1 < maxIndex.col && this.maze[this.position.row, this.position.col + 1] != 'X')
-                {
-                    if (!currentMoveData.IsVisited((this.position.row, this.position.col + 1)))
-                    {
-                        List<char> temp = new List<char>(prevUsedDirection) { 'R' };
-                        bfsQueue.Enqueue(new BFSNode((this.position.row, this.position.col + 1), temp, currentVisitedVertex, recentVisitedTreasure));
-                    }
-                }
-                if (this.position.row + 1 < maxIndex.row && this.maze[this.position.row + 1, this.position.col] != 'X')
-                {
-                    if (!currentMoveData.IsVisited((this.position.row + 1, this.position.col)))
-                    {
-                        List<char> temp = new List<char>(prevUsedDirection) { 'D' };
-                        bfsQueue.Enqueue(new BFSNode((this.position.row + 1, this.position.col), temp, currentVisitedVertex, recentVisitedTreasure));
-                    }
-                }
+                // Check every adjacent from current position
+                ProcessAdjacent(maxIndex, bfsQueue, prevUsedDirection, currentMoveData, currentVisitedVertex, recentVisitedTreasure);
 
                 // If all treasures found
                 if (recentVisitedTreasure.Count == this.totalTreasure)
@@ -133,6 +101,44 @@ namespace Goblin
             }
 
             return this.finalRoute;
+        }
+
+        private void ProcessAdjacent((int row, int col) maxIndex, Queue<BFSNode> bfsQueue, List<char> prevUsedDirection, BFSNode currentMoveData, List<(int row, int col)> currentVisitedVertex, HashSet<(int row, int col)> recentVisitedTreasure)
+        {
+            // Path Find Priority : left, up, right, down
+            // Enqueue every node if it hasn't been visited yet + save its history move
+            if (this.position.col - 1 >= 0 && this.maze[this.position.row, this.position.col - 1] != 'X')
+            {
+                if (!currentMoveData.IsVisited((this.position.row, this.position.col - 1)))
+                {
+                    List<char> temp = new List<char>(prevUsedDirection) { 'L' }; // ToList() to copy prevUsedDirection since assignment to object is a reference
+                    bfsQueue.Enqueue(new BFSNode((this.position.row, this.position.col - 1), temp, currentVisitedVertex, recentVisitedTreasure));
+                }
+            }
+            if (this.position.row - 1 >= 0 && this.maze[this.position.row - 1, this.position.col] != 'X')
+            {
+                if (!currentMoveData.IsVisited((this.position.row - 1, this.position.col)))
+                {
+                    List<char> temp = new List<char>(prevUsedDirection) { 'U' }; 
+                    bfsQueue.Enqueue(new BFSNode((this.position.row - 1, this.position.col), temp, currentVisitedVertex, recentVisitedTreasure));
+                }
+            }
+            if (this.position.col + 1 < maxIndex.col && this.maze[this.position.row, this.position.col + 1] != 'X')
+            {
+                if (!currentMoveData.IsVisited((this.position.row, this.position.col + 1)))
+                {
+                    List<char> temp = new List<char>(prevUsedDirection) { 'R' };
+                    bfsQueue.Enqueue(new BFSNode((this.position.row, this.position.col + 1), temp, currentVisitedVertex, recentVisitedTreasure));
+                }
+            }
+            if (this.position.row + 1 < maxIndex.row && this.maze[this.position.row + 1, this.position.col] != 'X')
+            {
+                if (!currentMoveData.IsVisited((this.position.row + 1, this.position.col)))
+                {
+                    List<char> temp = new List<char>(prevUsedDirection) { 'D' };
+                    bfsQueue.Enqueue(new BFSNode((this.position.row + 1, this.position.col), temp, currentVisitedVertex, recentVisitedTreasure));
+                }
+            }
         }
 
         public void PrintRoute(List<char> route)
@@ -281,7 +287,7 @@ namespace Goblin
             this.visitedTreasure = visitedTreasure;
         }
 
-        public (int row, int col) GetPosition ()
+        public (int row, int col) GetPosition()
         {
             return this.position;
         }
