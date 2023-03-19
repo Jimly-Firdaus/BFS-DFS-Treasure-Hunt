@@ -14,7 +14,7 @@ namespace Goblin
         {
             InitializeComponent();
             // filepath will be get from filedialogbox
-            readFile("C:\\Users\\Jeffrey Chow\\Documents\\ITB\\4th Semester\\IF2211 Algorithm Strategies\\Tubes 2\\test\\TestingApp\\TestingApp\\test.txt");
+            readFile("");
             handleInputPanel();
             handleOutputPanel();
 
@@ -113,7 +113,7 @@ namespace Goblin
             panel_output.Controls.Add(_panels[i, j]);
         }
 
-        private async void updateColorFromRoute(char[] routes)
+        private async void updateColorFromRoute(List<char> routes)
         {
             await Task.Delay(1000); // wait for one second
             Point toChange = krustyKrab;
