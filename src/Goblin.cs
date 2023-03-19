@@ -11,7 +11,7 @@ namespace Goblin
     public class Goblin : SolveMaze
     {
         // private string name;
-        private List<char> route;
+        private List<char> route = new List<char>();
         
         public Goblin(int totalTreasure, char[,] maze) : base(totalTreasure, maze)
         {
