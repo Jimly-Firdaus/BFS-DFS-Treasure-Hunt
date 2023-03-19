@@ -18,7 +18,7 @@ namespace Goblin
             handleInputPanel();
             handleOutputPanel();
 
-            char[] routes = { 'R', 'D', 'D', 'R', 'R', 'U' };
+            List<char> routes = new List<char>{ 'R', 'D', 'D', 'R', 'R', 'U' };
             updateColorFromRoute(routes);
         }
 
