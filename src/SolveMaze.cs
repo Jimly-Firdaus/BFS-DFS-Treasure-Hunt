@@ -173,9 +173,7 @@ namespace Goblin
             vertex[this.position] = true;
             while (!(stack.Count == 0))
             {
-                char direction = GetAvailableDirection(this.position.row, this.position.col, vertex);
-                // Console.WriteLine("This is current location: " + row.ToString() + " " + col.ToString());
-                // Console.WriteLine("This is direction : " + direction);
+                char direction = GetAvailableDirection(vertex);
                 if (direction == 'L')
                 {
                     this.position.col -= 1;
@@ -209,7 +207,7 @@ namespace Goblin
                         this.position = stack.Peek();
                     }
                 }
-                if (CheckTreasure(this.position.row, this.position.col) && !vertex[this.position])
+                if (CheckTreasure() && !vertex[this.position])
                 {
                     rute = rute.Concat(temp).ToList();
                     temp.Clear();
@@ -235,21 +233,21 @@ namespace Goblin
             return vertex;
         }
 
-        private char GetAvailableDirection(int currentRow, int currentCol, Dictionary<(int, int), bool> vertex)
+        private char GetAvailableDirection(Dictionary<(int, int), bool> vertex)
         {
-            if (currentCol - 1 >= 0 && this.maze[currentRow, currentCol - 1] != 'X' && !vertex[(currentRow, currentCol - 1)])
+            if (this.position.col - 1 >= 0 && this.maze[this.position.row, this.position.col - 1] != 'X' && !vertex[(this.position.row, this.position.col - 1)])
             {
                 return 'L';
             }
-            else if (currentRow - 1 >= 0 && this.maze[currentRow - 1, currentCol] != 'X' && !vertex[(currentRow - 1, currentCol)])
+            else if (this.position.row - 1 >= 0 && this.maze[this.position.row - 1, this.position.col] != 'X' && !vertex[(this.position.row - 1, this.position.col)])
             {
                 return 'U';
             }
-            else if (currentCol + 1 < this.maze.GetLength(1) && this.maze[currentRow, currentCol + 1] != 'X' && !vertex[(currentRow, currentCol + 1)])
+            else if (this.position.col + 1 < this.maze.GetLength(1) && this.maze[this.position.row, this.position.col + 1] != 'X' && !vertex[(this.position.row, this.position.col + 1)])
             {
                 return 'R';
             }
-            else if (currentRow + 1 < this.maze.GetLength(0) && this.maze[currentRow + 1, currentCol] != 'X' && !vertex[(currentRow + 1, currentCol)])
+            else if (this.position.row + 1 < this.maze.GetLength(0) && this.maze[this.position.row + 1, this.position.col] != 'X' && !vertex[(this.position.row + 1, this.position.col)])
             {
                 return 'D';
             }
@@ -259,9 +257,9 @@ namespace Goblin
             }
         }
 
-        private bool CheckTreasure(int row, int col)
+        private bool CheckTreasure()
         {
-            if (this.maze[row, col] == 'T')
+            if (this.maze[this.position.row, this.position.col] == 'T')
             {
                 return true;
             }
