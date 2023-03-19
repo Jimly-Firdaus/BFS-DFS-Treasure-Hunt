@@ -49,6 +49,7 @@ namespace Goblin
                 if (found) break;
             }
         }
+
         /**
          * Path finding with breadth first search
          * @param int row position for start point
