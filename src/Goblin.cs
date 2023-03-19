@@ -23,6 +23,10 @@ namespace Goblin
             this.route = base.BreadthFirstSearch();
         }
 
+        public void SolveWithDFS()
+        {
+            this.route = base.DepthFirstSearch();
+        }
         public List<char> GetRoute()
         {
             return this.route;
@@ -33,5 +37,9 @@ namespace Goblin
             return base.GetTotalBFSNodes();
         }
 
+        public int TotalVisitedDFSNodes()
+        {
+            return 0;
+        }
     }
 }
