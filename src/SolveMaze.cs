@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -24,12 +25,12 @@ namespace Goblin
             SetupMaze();
         }
 
-        public void SetupMaze()
+        private void SetupMaze()
         { 
-            FindStartPoint();
+            MoveToStartPoint();
         }
 
-        private void FindStartPoint()
+        private void MoveToStartPoint()
         {
             bool found = false;
             // Find the Start Point
@@ -58,6 +59,7 @@ namespace Goblin
          */
         public List<char> BreadthFirstSearch()
         {
+            MoveToStartPoint();
             // Bound index
             (int row, int col) maxIndex = (this.maze.GetLength(0), this.maze.GetLength(1));
             bool foundAll = false;
@@ -106,7 +108,7 @@ namespace Goblin
                 {
                     if (!currentMoveData.IsVisited((this.position.row - 1, this.position.col)))
                     {
-                        List<char> temp = new List<char>(prevUsedDirection) { 'U' }; // ToList() to copy prevUsedDirection since assignment to object is a 
+                        List<char> temp = new List<char>(prevUsedDirection) { 'U' }; // ToList() to copy prevUsedDirection since assignment to object is a reference
                         bfsQueue.Enqueue(new TrackData((this.position.row - 1, this.position.col), temp, currentVisitedVertex, recentVisitedTreasure));
                     }
                 }
@@ -159,6 +161,112 @@ namespace Goblin
             return this.visitedNodes.Count;
         }
 
+        public List<char> DepthFirstSearch()
+        {
+            MoveToStartPoint();
+            Dictionary<(int, int), bool> vertex = new Dictionary<(int, int), bool>();
+            vertex = GetAllVertex();
+            Stack<(int, int)> stack = new Stack<(int, int)>();
+            stack.Push(this.position);
+            List<char> rute = new List<char>();
+            List<char> temp = new List<char>();
+            vertex[this.position] = true;
+            while (!(stack.Count == 0))
+            {
+                char direction = GetAvailableDirection(this.position.row, this.position.col, vertex);
+                // Console.WriteLine("This is current location: " + row.ToString() + " " + col.ToString());
+                // Console.WriteLine("This is direction : " + direction);
+                if (direction == 'L')
+                {
+                    this.position.col -= 1;
+                    temp.Add(direction);
+                    stack.Push(this.position);
+
+                }
+                else if (direction == 'U')
+                {
+                    this.position.row -= 1;
+                    temp.Add(direction);
+                    stack.Push(this.position);
+                }
+                else if (direction == 'R')
+                {
+                    this.position.col += 1;
+                    temp.Add(direction);
+                    stack.Push(this.position);
+                }
+                else if (direction == 'D')
+                {
+                    this.position.row += 1;
+                    temp.Add(direction);
+                    stack.Push(this.position);
+                }
+                else if (direction == 'B')
+                {
+                    stack.Pop();
+                    if (stack.Count > 0)
+                    {
+                        this.position = stack.Peek();
+                    }
+                }
+                if (CheckTreasure(this.position.row, this.position.col) && !vertex[this.position])
+                {
+                    rute = rute.Concat(temp).ToList();
+                    temp.Clear();
+                }
+                vertex[this.position] = true;
+            }
+            return rute;
+        }
+
+        private Dictionary<(int, int), bool> GetAllVertex()
+        {
+            Dictionary<(int, int), bool> vertex = new Dictionary<(int, int), bool>();
+            for (int i = 0; i < this.maze.GetLength(0); i++)
+            {
+                for (int j = 0; j < this.maze.GetLength(1); j++)
+                {
+                    if (this.maze[i, j] != 'X')
+                    {
+                        vertex.Add((i, j), false);
+                    }
+                }
+            }
+            return vertex;
+        }
+
+        private char GetAvailableDirection(int currentRow, int currentCol, Dictionary<(int, int), bool> vertex)
+        {
+            if (currentCol - 1 >= 0 && this.maze[currentRow, currentCol - 1] != 'X' && !vertex[(currentRow, currentCol - 1)])
+            {
+                return 'L';
+            }
+            else if (currentRow - 1 >= 0 && this.maze[currentRow - 1, currentCol] != 'X' && !vertex[(currentRow - 1, currentCol)])
+            {
+                return 'U';
+            }
+            else if (currentCol + 1 < this.maze.GetLength(1) && this.maze[currentRow, currentCol + 1] != 'X' && !vertex[(currentRow, currentCol + 1)])
+            {
+                return 'R';
+            }
+            else if (currentRow + 1 < this.maze.GetLength(0) && this.maze[currentRow + 1, currentCol] != 'X' && !vertex[(currentRow + 1, currentCol)])
+            {
+                return 'D';
+            }
+            else
+            {
+                return 'B';
+            }
+        }
+
+        private bool CheckTreasure(int row, int col)
+        {
+            if (this.maze[row, col] == 'T')
+            {
+                return true;
+            }
+            return false;
+        }
     }
 
     internal class TrackData {
