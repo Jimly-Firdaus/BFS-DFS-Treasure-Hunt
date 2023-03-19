@@ -186,30 +186,33 @@ namespace Goblin
                     stack.Push(this.position);
 
                 }
-                else if (direction == 'U')
+                else
                 {
-                    this.position.row -= 1;
-                    temp.Add(direction);
-                    stack.Push(this.position);
-                }
-                else if (direction == 'R')
-                {
-                    this.position.col += 1;
-                    temp.Add(direction);
-                    stack.Push(this.position);
-                }
-                else if (direction == 'D')
-                {
-                    this.position.row += 1;
-                    temp.Add(direction);
-                    stack.Push(this.position);
-                }
-                else if (direction == 'B')
-                {
-                    stack.Pop();
-                    if (stack.Count > 0)
+                    if (direction == 'U')
                     {
-                        this.position = stack.Peek();
+                        this.position.row -= 1;
+                        temp.Add(direction);
+                        stack.Push(this.position);
+                    }
+                    else if (direction == 'R')
+                    {
+                        this.position.col += 1;
+                        temp.Add(direction);
+                        stack.Push(this.position);
+                    }
+                    else if (direction == 'D')
+                    {
+                        this.position.row += 1;
+                        temp.Add(direction);
+                        stack.Push(this.position);
+                    }
+                    else if (direction == 'B')
+                    {
+                        stack.Pop();
+                        if (stack.Count > 0)
+                        {
+                            this.position = stack.Peek();
+                        }
                     }
                 }
                 if (CheckTreasure() && !vertex[this.position])
