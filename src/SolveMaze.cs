@@ -10,33 +10,22 @@ namespace Goblin
 {
     public class SolveMaze
     {
-        private char[,] maze;
-        private bool[,] marker;
+        private readonly char[,] maze;
+        private readonly int totalTreasure;
+
         private (int row, int col) position;
-        private int bfsTotalNodes;
-        private int totalTreasure;
-        private List<char> finalRoute;
-        private int totalMove = 0;
         private HashSet<List<(int row, int col)>> visitedNodes = new HashSet<List<(int row, int col)>>();
+        private List<char> finalRoute = new List<char>();
 
         public SolveMaze(int totalTreasure, char[,] maze)
         {
             this.totalTreasure = totalTreasure;
-            this.bfsTotalNodes = -1; // excluding start point
             this.maze = maze;
             SetupMaze();
         }
 
         public void SetupMaze()
         { 
-            this.marker = new bool[this.maze.GetLength(0), this.maze.GetLength(1)];
-            for (int i = 0; i < this.marker.GetLength(0); i++)
-            {
-                for (int j = 0; j < this.marker.GetLength(1); j++)
-                {
-                    this.marker[i, j] = false;
-                }
-            }
             FindStartPoint();
         }
 
@@ -68,34 +57,42 @@ namespace Goblin
          */
         public List<char> BreadthFirstSearch()
         {
+            // Bound index
             (int row, int col) maxIndex = (this.maze.GetLength(0), this.maze.GetLength(1));
-            Queue<TrackData> bfsQueue = new Queue<TrackData>();
-            // Path Find Priority : left, up, right, down
-            // Each move, needs to append direction to that point to keep route track
             bool foundAll = false;
-            // Initial first element
+
+            // Initiate first element & BFS Queue
+            Queue<TrackData> bfsQueue = new Queue<TrackData>();
             List<char> usedDirection = new List<char>();
             List<(int row, int col)> visitedVertex = new List<(int row, int col)> { this.position };
             HashSet<(int row, int col)> visitedTreasure = new HashSet<(int row, int col)>();
             bfsQueue.Enqueue(new TrackData(this.position, usedDirection, visitedVertex, visitedTreasure));
-            this.marker[this.position.row, this.position.col] = false;
             
             while (!foundAll)
             {
+                // Get node history
                 List<char> prevUsedDirection = bfsQueue.Peek().GetUsedDirection();
                 List<(int row, int col)> prevUsedVertex = bfsQueue.Peek().GetVisitedVertex();
                 HashSet<(int row, int col)> prevVisitedTreasure = bfsQueue.Peek().GetVisitedTreasure();
                 TrackData currentMoveData = bfsQueue.Dequeue();
+
+                // Add new node to visited nodes
                 this.visitedNodes.Add(currentMoveData.GetVisitedVertex());
+
                 this.Move(currentMoveData.GetPosition());
+
+                // Copy previous node history
                 List<(int row, int col)> currentVisitedVertex = prevUsedVertex.ToList();
                 HashSet<(int row, int col)> recentVisitedTreasure = prevVisitedTreasure.ToHashSet();
                 currentVisitedVertex.Add(this.position);
+
                 if (this.maze[this.position.row, this.position.col] == 'T')
                 {
-                    // treasureFoundSoFar = currentMoveData.GetTreasureCount() + 1;
                     recentVisitedTreasure.Add(this.position);
                 }
+
+                // Path Find Priority : left, up, right, down
+                // Enqueue every node if it hasn't been visited yet + save its history move
                 if (this.position.col - 1 >= 0 && this.maze[this.position.row, this.position.col - 1] != 'X')
                 {
                     if (!currentMoveData.IsVisited((this.position.row, this.position.col - 1)))
@@ -129,6 +126,8 @@ namespace Goblin
                         bfsQueue.Enqueue(new TrackData((this.position.row + 1, this.position.col), temp, currentVisitedVertex, recentVisitedTreasure));
                     }
                 }
+
+                // If all treasures found
                 if (recentVisitedTreasure.Count == this.totalTreasure)
                 {
                     foundAll = true;
@@ -151,16 +150,7 @@ namespace Goblin
 
         private void Move((int row, int col) movePoint)
         {
-            this.totalMove++;
             this.position = movePoint;
-            if (this.marker[this.position.row, this.position.col] == false)
-            {
-                this.bfsTotalNodes++;
-                if (this.maze[this.position.row, this.position.col] != 'T')
-                {
-                    this.marker[this.position.row, this.position.col] = true;
-                }
-            } 
         }
 
         public int GetTotalBFSNodes()
