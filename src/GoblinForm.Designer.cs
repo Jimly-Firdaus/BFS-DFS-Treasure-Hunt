@@ -43,7 +43,7 @@ namespace Goblin
             formWidth = ClientRectangle.Size.Width;
             formHeight = ClientRectangle.Size.Height;
             Debug.WriteLine(formWidth);
-            Debug.WriteLine(formHeight);    
+            Debug.WriteLine(formHeight);
 
             // 
             // panel_input
@@ -52,7 +52,7 @@ namespace Goblin
             panel_input.Location = new Point((int)(0.05 * formWidth), (int)(0.2 * formHeight));
             panel_input.Margin = new Padding(2, 1, 2, 1);
             panel_input.Name = "panel_input";
-            panel_input.Size = new Size((int)(0.225 * formWidth),(int)(0.75 * formHeight));
+            panel_input.Size = new Size((int)(0.225 * formWidth), (int)(0.75 * formHeight));
             panel_input.TabIndex = 0;
             // 
             // panel_output

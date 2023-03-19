@@ -1,6 +1,7 @@
 using System.Drawing;
 using System.Diagnostics;
 using System.Threading;
+using System.Text;
 
 namespace Goblin
 {
@@ -14,12 +15,9 @@ namespace Goblin
         {
             InitializeComponent();
             // filepath will be get from filedialogbox
-            readFile("");
             handleInputPanel();
             handleOutputPanel();
 
-            List<char> routes = new List<char>{ 'R', 'D', 'D', 'R', 'R', 'U' };
-            updateColorFromRoute(routes);
         }
 
         private void readFile(string filename)
@@ -32,11 +30,11 @@ namespace Goblin
             {
                 lines[i] = lines[i].Replace(" ", "");
             }
-            
+
             // count rows and columns
             int rows = lines.Length;
             int columns = lines[0].Length;
-           
+
             // initialize _panels and _maze
             _panels = new Panel[rows, columns];
             _maze = new char[rows, columns];
@@ -45,9 +43,10 @@ namespace Goblin
             for (int i = 0; i < rows; i++)
             {
                 char[] row = lines[i].ToCharArray();
-                for (int j = 0; j < columns; j++) {
+                for (int j = 0; j < columns; j++)
+                {
                     createNewPanel(i, j, row[j]);
-                    _maze[i, j] = row[j];   
+                    _maze[i, j] = row[j];
                 }
             }
         }
@@ -87,7 +86,8 @@ namespace Goblin
             else if (type == 'T')
             {
                 panel.BackColor = Color.Gold;
-            } else if (type == 'K')
+            }
+            else if (type == 'K')
             {
                 krustyKrab = new Point(i, j);
                 panel.BackColor = Color.Red;
@@ -153,21 +153,94 @@ namespace Goblin
 
         private void handleInputPanel()
         {
-            // Create the panel and set its properties
-            Panel myPanel = new Panel();
-            myPanel.BackColor = System.Drawing.Color.LightBlue;
-            myPanel.BorderStyle = BorderStyle.FixedSingle;
-            myPanel.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right | AnchorStyles.Bottom;
-            myPanel.Dock = DockStyle.Fill;
+            // Label "Input"
+            Label inputLabel = new Label();
+            inputLabel.Text = "Input";
+            inputLabel.AutoSize = true;
+            inputLabel.Location = new Point(0, 0);
+            inputLabel.BackColor = Color.Blue;
 
-            // Add the panel to the form
-            panel_input.Controls.Add(myPanel);
+            // Label "Filename"
+            Label filenameLabel = new Label();
+            filenameLabel.Text = "Filename : ";
+            filenameLabel.AutoSize = true;
+            filenameLabel.Location = new Point(0, 50);
+            filenameLabel.BackColor = Color.Blue;
 
+            
+            // Open File Button
+            Button openFileBtn = new Button();
+            openFileBtn.Text = "Open File";
+            openFileBtn.Location = new Point(0, 100);
+            openFileBtn.Size = new Size(50, 20);
+            openFileBtn.Click += new EventHandler((sender, e) =>
+            {
+                OpenFileDialog dialog = new OpenFileDialog();
+                dialog.Filter = "Text files | *.txt";
+                dialog.Multiselect = false;
+                if (dialog.ShowDialog() == DialogResult.OK)
+                {
+                    String path = dialog.FileName;
+                    readFile(path);
+                    filenameLabel.Text = Path.GetFileName(path);
+                }
+            });
+
+            // Label "Algoritma"
+            Label algorithmLabel = new Label();
+            algorithmLabel.Text = "Algoritma : ";
+            algorithmLabel.AutoSize = true;
+            algorithmLabel.Location = new Point(0, 130);
+            algorithmLabel.BackColor = Color.Blue;
+
+            // Group box + radio checker
+            GroupBox groupBox1 = new GroupBox();
+            groupBox1.Location = new Point(0, 170);
+            groupBox1.Size = new Size(100, 60);
+            groupBox1.BackColor = Color.Transparent;
+
+            RadioButton choiceBFS = new RadioButton();
+            choiceBFS.Text = "BFS";
+            choiceBFS.ForeColor = Color.Black;
+            choiceBFS.Location = new Point(0, 20);
+
+            RadioButton choiceDFS = new RadioButton();
+            choiceDFS.Text = "DFS";
+            choiceDFS.ForeColor = Color.Black;
+            choiceDFS.Location = new Point(0, 40);
+
+            groupBox1.Controls.Add(choiceBFS);
+            groupBox1.Controls.Add(choiceDFS);
+
+            // Run Button
+            Button runBtn = new Button();
+            runBtn.Text = "Run";
+            runBtn.Location = new Point(0, 250);
+            runBtn.Size = new Size(50, 20);
+            runBtn.Click += new EventHandler((sender, e) =>
+            {
+                List<char> route;
+                if (choiceBFS.Checked)
+                {
+                    Goblin goblin = new Goblin(2, this._maze);
+                    goblin.SolveWithBFS();
+                    route = goblin.GetRoute();
+                    updateColorFromRoute(route);
+
+                } 
+                if (choiceDFS.Checked) { 
+                
+                }
+            });
+
+            panel_input.Controls.Add(inputLabel);
+            panel_input.Controls.Add(filenameLabel);
+            panel_input.Controls.Add(algorithmLabel);
+            panel_input.Controls.Add(openFileBtn);
+            panel_input.Controls.Add(runBtn);
+            panel_input.Controls.Add(groupBox1);
+            
         }
-
-        
-
-
         private void handleOutputPanel()
         {
         }
@@ -177,6 +250,8 @@ namespace Goblin
             // Create title Label
 
         }
+
+
 
     }
 }

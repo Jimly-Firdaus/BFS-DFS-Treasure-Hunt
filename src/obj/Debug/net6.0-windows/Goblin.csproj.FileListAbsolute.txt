@@ -34,3 +34,21 @@ C:\Users\Jeffrey Chow\Documents\ITB\4th Semester\IF2211 Algorithm Strategies\Tub
 C:\Users\Jeffrey Chow\Documents\ITB\4th Semester\IF2211 Algorithm Strategies\Tubes 2\repository\Tubes2_Goblin\src\obj\Debug\net6.0-windows\Goblin.pdb
 C:\Users\Jeffrey Chow\Documents\ITB\4th Semester\IF2211 Algorithm Strategies\Tubes 2\repository\Tubes2_Goblin\src\obj\Debug\net6.0-windows\Goblin.genruntimeconfig.cache
 C:\Users\Jeffrey Chow\Documents\ITB\4th Semester\IF2211 Algorithm Strategies\Tubes 2\repository\Tubes2_Goblin\src\obj\Debug\net6.0-windows\ref\Goblin.dll
+D:\Programming\Stima\Tubes 2 Stima\Tubes2_Goblin\src\obj\Debug\net6.0-windows\Goblin.csproj.AssemblyReference.cache
+D:\Programming\Stima\Tubes 2 Stima\Tubes2_Goblin\src\obj\Debug\net6.0-windows\Goblin.Form1.resources
+D:\Programming\Stima\Tubes 2 Stima\Tubes2_Goblin\src\obj\Debug\net6.0-windows\Goblin.GoblinForm.resources
+D:\Programming\Stima\Tubes 2 Stima\Tubes2_Goblin\src\obj\Debug\net6.0-windows\Goblin.csproj.GenerateResource.cache
+D:\Programming\Stima\Tubes 2 Stima\Tubes2_Goblin\src\obj\Debug\net6.0-windows\Goblin.GeneratedMSBuildEditorConfig.editorconfig
+D:\Programming\Stima\Tubes 2 Stima\Tubes2_Goblin\src\obj\Debug\net6.0-windows\Goblin.AssemblyInfoInputs.cache
+D:\Programming\Stima\Tubes 2 Stima\Tubes2_Goblin\src\obj\Debug\net6.0-windows\Goblin.AssemblyInfo.cs
+D:\Programming\Stima\Tubes 2 Stima\Tubes2_Goblin\src\obj\Debug\net6.0-windows\Goblin.csproj.CoreCompileInputs.cache
+D:\Programming\Stima\Tubes 2 Stima\Tubes2_Goblin\src\obj\Debug\net6.0-windows\Goblin.dll
+D:\Programming\Stima\Tubes 2 Stima\Tubes2_Goblin\src\obj\Debug\net6.0-windows\refint\Goblin.dll
+D:\Programming\Stima\Tubes 2 Stima\Tubes2_Goblin\src\obj\Debug\net6.0-windows\Goblin.pdb
+D:\Programming\Stima\Tubes 2 Stima\Tubes2_Goblin\src\bin\Debug\net6.0-windows\Goblin.exe
+D:\Programming\Stima\Tubes 2 Stima\Tubes2_Goblin\src\bin\Debug\net6.0-windows\Goblin.deps.json
+D:\Programming\Stima\Tubes 2 Stima\Tubes2_Goblin\src\bin\Debug\net6.0-windows\Goblin.runtimeconfig.json
+D:\Programming\Stima\Tubes 2 Stima\Tubes2_Goblin\src\bin\Debug\net6.0-windows\Goblin.dll
+D:\Programming\Stima\Tubes 2 Stima\Tubes2_Goblin\src\bin\Debug\net6.0-windows\Goblin.pdb
+D:\Programming\Stima\Tubes 2 Stima\Tubes2_Goblin\src\obj\Debug\net6.0-windows\Goblin.genruntimeconfig.cache
+D:\Programming\Stima\Tubes 2 Stima\Tubes2_Goblin\src\obj\Debug\net6.0-windows\ref\Goblin.dll
