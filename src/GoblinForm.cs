@@ -181,7 +181,7 @@ namespace Goblin
             // change the krusty krab color
             _panels[toChange.Y, toChange.X].BackColor = Color.Green;
 
-            foreach (char route in routes)
+            foreach (string route in routes)
             {
                 await Task.Delay(200); // wait for one second
                 movePoint(ref toChange, route);
