@@ -10,7 +10,7 @@ namespace Goblin
         private Panel[,] _panels;
         private char[,] _maze;
         private Point _krustyKrab;
-        private List<char> _route;
+        private List<string> _route;
         private string _filename;
 
         // Label
@@ -173,7 +173,7 @@ namespace Goblin
             panelMazeContainer.Controls.Add(_panels[i, j]);
         }
 
-        private async Task updateColorFromRoute(List<char> routes)
+        private async Task updateColorFromRoute(List<string> routes)
         {
             await Task.Delay(200); // wait for one second
             Point toChange = _krustyKrab;
@@ -356,7 +356,7 @@ namespace Goblin
 
                     // update pathLabel
                     String routePath = "";
-                    foreach (char route in _route)
+                    foreach (string route in _route)
                     {
                         routePath += route.ToString();
                     }
@@ -367,14 +367,44 @@ namespace Goblin
                     stepCount.Text = _route.Count().ToString();
 
                     // update nodeCount
-                    nodeCount.Text = goblin.GetTotalBFSNodes().ToString();
+                    nodeCount.Text = goblin.GetTotalVisitedNodes().ToString();
                     
                     // update executionTime
                     executionTime.Text = (watch.ElapsedMilliseconds).ToString();  
                 }
 
                 if (choiceDFS.Checked) { 
+                    Goblin goblin = new Goblin(2, _maze);
 
+                    var watch = new System.Diagnostics.Stopwatch();
+                   
+                    watch.Start();  
+                    goblin.SolveWithDFS();
+                    watch.Stop();   
+
+                    runned = true;
+
+                    _route = goblin.GetRoute();
+
+                    updateColorFromRoute(_route);
+
+                    // update pathLabel
+                    String routePath = "";
+                    foreach (string route in _route)
+                    {
+                        routePath += route.ToString();
+                    }
+
+                    pathLabel.Text = String.Join("-", routePath.ToCharArray());
+
+                    // update stepCount
+                    stepCount.Text = _route.Count().ToString();
+
+                    // update nodeCount
+                    nodeCount.Text = goblin.GetTotalVisitedNodes().ToString();
+                    
+                    // update executionTime
+                    executionTime.Text = (watch.ElapsedMilliseconds).ToString();
                 }
             });
             runPanel.Controls.Add(runBtn);
