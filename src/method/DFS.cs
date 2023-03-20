@@ -19,6 +19,7 @@ namespace Main.method
             stack.Push((row, col));
             List<char> rute = new List<char>();
             List<char> temp = new List<char>();
+            Stack<char> lastMove = new Stack<char>();
             vertex[(row, col)] = true;
             while (!(stack.Count == 0))
             {
@@ -30,6 +31,7 @@ namespace Main.method
                     col -= 1;
                     temp.Add(direction);
                     stack.Push((row, col));
+                    lastMove.Push('R');
 
                 }
                 else if(direction == 'U')
@@ -37,23 +39,29 @@ namespace Main.method
                     row -= 1;
                     temp.Add(direction);
                     stack.Push((row, col));
+                    lastMove.Push('D');
                 }
                 else if(direction == 'R')
                 {
                     col+=1;
                     temp.Add(direction);
                     stack.Push((row, col));
+                    lastMove.Push('L');
                 }
                 else if (direction == 'D')
                 {
                     row += 1;
                     temp.Add(direction);
                     stack.Push((row, col));
+                    lastMove.Push('U');
                 }
                 else if (direction == 'B')
                 {
                     stack.Pop();
-                    temp.Add(direction);
+                    if (lastMove.Count > 0)
+                    {
+                        temp.Add(lastMove.Pop());
+                    }
                     if (stack.Count > 0)
                     {
                         (row, col) = stack.Peek();
