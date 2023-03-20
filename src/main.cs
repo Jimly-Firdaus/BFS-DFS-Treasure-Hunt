@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Drawing;
 
 namespace Goblin
 {
@@ -26,11 +27,17 @@ namespace Goblin
             Console.WriteLine("----------------BFS----------------");
             goblin.SolveWithBFS();
             List<string> bfsRoute = goblin.GetRoute();
-            Console.WriteLine("Total nodes: " + goblin.GetTotalVisitedNodes());
+            Console.WriteLine("\nTotal nodes: " + goblin.GetTotalVisitedNodes());
             Console.Write("Route : ");
             for (int i = 0; i < bfsRoute.Count; i++)
             {
                 Console.Write(bfsRoute[i] + " ");
+            }
+            List<Point> bfsMovement = goblin.GetMoveHistory();
+            Console.WriteLine("Movement History: ");
+            for (int i = 0; i < bfsMovement.Count; i++)
+            {
+                Console.Write(bfsMovement[i] + " | ");
             }
             Console.WriteLine("\nTotal Direction : " + bfsRoute.Count);
             Console.WriteLine("----------------DFS----------------");
@@ -41,6 +48,12 @@ namespace Goblin
             for (int i = 0; i < dfsRoute.Count; i++)
             {
                 Console.Write(dfsRoute[i] + " ");
+            }
+            List<Point> dfsMovement = goblin.GetMoveHistory();
+            Console.WriteLine("Movement History: ");
+            for (int i = 0; i < dfsMovement.Count; i++)
+            {
+                Console.Write(dfsMovement[i] + " | ");
             }
             Console.WriteLine("\nTotal Direction : " + dfsRoute.Count);
         }
