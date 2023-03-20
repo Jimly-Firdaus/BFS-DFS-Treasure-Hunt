@@ -272,6 +272,7 @@ namespace Goblin
             stack.Push(this.position);
             List<string> rute = new List<string>();
             List<string> temp = new List<string>();
+            Stack<string> lastMove = new Stack<string>();
             vertex[this.position] = true;
             this.visitedNodes.Add(new List<(int, int)>{ this.position });
             this.positionHistory.Add(new Point(this.position.col, this.position.row));
@@ -283,6 +284,7 @@ namespace Goblin
                     this.position.col -= 1;
                     temp.Add(direction);
                     stack.Push(this.position);
+                    lastMove.Push("R");
                 }
                 else
                 {
@@ -291,22 +293,29 @@ namespace Goblin
                         this.position.row -= 1;
                         temp.Add(direction);
                         stack.Push(this.position);
+                        lastMove.Push("D");
                     }
                     else if (direction == "R")
                     {
                         this.position.col += 1;
                         temp.Add(direction);
                         stack.Push(this.position);
+                        lastMove.Push("L");
                     }
                     else if (direction == "D")
                     {
                         this.position.row += 1;
                         temp.Add(direction);
                         stack.Push(this.position);
+                        lastMove.Push("U");
                     }
                     else if (direction == "B")
                     {
                         stack.Pop();
+                        if (lastMove.Count > 0)
+                        {
+                            temp.Add(lastMove.Pop());
+                        }
                         if (stack.Count > 0)
                         {
                             this.position = stack.Peek();
