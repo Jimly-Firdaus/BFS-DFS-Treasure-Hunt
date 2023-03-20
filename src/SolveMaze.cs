@@ -9,10 +9,10 @@ namespace Goblin
     public class SolveMaze
     {
         private const int MAX_ALLOWED_PASS_STARTPOINT = 2; // Maximum allowed to pass start point ('K')
+        private readonly (int row, int col) startPoint;    // Start point
         private readonly char[,] maze;         // Maze map configuration
         private readonly int totalTreasure;    // Total treasure inside
         private (int row, int col) position;   // Goblin position
-        private (int row, int col) startPoint; // Start point
         private int totalPassedStartPoint = 0; // passed start point counter
         private bool[,] marker;                // Marker for teleport
         private HashSet<List<(int row, int col)>> visitedNodes = new HashSet<List<(int row, int col)>>(); // Goblin's Visited Nodes
