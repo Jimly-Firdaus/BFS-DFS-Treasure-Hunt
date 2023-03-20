@@ -53,7 +53,8 @@ namespace Main.method
                 else if (direction == 'B')
                 {
                     stack.Pop();
-                    if(stack.Count > 0)
+                    temp.Add(direction);
+                    if (stack.Count > 0)
                     {
                         (row, col) = stack.Peek();
                     }
@@ -97,7 +98,7 @@ namespace Main.method
                 }
             }
             return vertex;
-        }
+        }        
 
         public static char getAvailableDirection(Map map, int currentRow, int currentCol, Dictionary<(int, int), bool> vertex)
         {
