@@ -48,7 +48,7 @@ namespace Goblin
             // 
             // panel_input
             // 
-            panel_input.BackColor = Color.Yellow;
+            panel_input.BackColor = Color.LightPink;
             panel_input.Location = new Point((int)(0.05 * formWidth), (int)(0.2 * formHeight));
             panel_input.Margin = new Padding(2, 1, 2, 1);
             panel_input.Name = "panel_input";
@@ -84,6 +84,9 @@ namespace Goblin
 
             // Onchange
             this.SizeChanged += new EventHandler(GoblinForm_Resize);
+
+            // output_panel children
+            createOutputPanel();
         }
 
         private void GoblinForm_Resize(object sender, EventArgs e)
@@ -106,12 +109,68 @@ namespace Goblin
             panel_title.Size = new Size((int)(0.9 * formWidth), (int)(0.1 * formHeight));
         }
 
+        private void createOutputPanel()
+        {
+            int parentWidth = panel_output.Width;
+            int parentHeight = panel_output.Height;
+
+            // Create Panel Output Title
+            panelOutputTitle = new Panel();
+            panelOutputTitle.Width = parentWidth;
+            panelOutputTitle.Height = (int)(parentHeight * 0.1);
+            panelOutputTitle.BackColor = Color.LightGreen;
+            panelOutputTitle.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
+
+            // Create Panel Maze Container
+            panelMazeContainer = new Panel();
+            panelMazeContainer.Width = parentWidth;
+            panelMazeContainer.Height = (int)(parentHeight * 0.75);
+            panelMazeContainer.BackColor = Color.LightBlue;
+            panelMazeContainer.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
+            panelMazeContainer.Top = panelOutputTitle.Bottom;
+
+            // Create Panel Info Container
+            panelInfoContainer = new Panel();
+            panelInfoContainer.Width = parentWidth;
+            panelInfoContainer.Height = (int)(parentHeight * 0.15);
+            panelInfoContainer.BackColor = Color.LightGreen;
+            panelInfoContainer.Anchor = AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
+            panelInfoContainer.Top = panelMazeContainer.Bottom;
+
+            panel_output.Controls.Add(panelOutputTitle);
+            panel_output.Controls.Add(panelMazeContainer);
+            panel_output.Controls.Add(panelInfoContainer);
+
+            panel_output.Resize += (sender, e) =>
+            {
+                int parentWidth = panel_output.Width;
+                int parentHeight = panel_output.Height;
+
+                // Resize Panel Output Title
+                panelOutputTitle.Width = parentWidth;
+                panelOutputTitle.Height = (int)(parentHeight * 0.1);
+
+                // Resize Panel Maze Container
+                panelMazeContainer.Width = parentWidth;
+                panelMazeContainer.Height = (int)(parentHeight * 0.75);
+                panelMazeContainer.Top = panelOutputTitle.Bottom;
+
+                // Resize Panel Info Container
+                panelInfoContainer.Width = parentWidth;
+                panelInfoContainer.Height = (int)(parentHeight * 0.15);
+                panelInfoContainer.Top = panelMazeContainer.Bottom;
+            };
+        }
+
         #endregion
 
-        private int formWidth;
-        private int formHeight;
+        internal int formWidth;
+        internal int formHeight;
         internal Panel panel_input;
         internal Panel panel_output;
+        internal Panel panelOutputTitle;
+        internal Panel panelMazeContainer;
+        internal Panel panelInfoContainer;
         private Panel panel_title;
     }
 }
