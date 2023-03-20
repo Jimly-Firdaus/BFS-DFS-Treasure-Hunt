@@ -2,16 +2,15 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Drawing;
-using System.Threading;
 
 namespace Goblin
 {
     public class SolveMaze
     {
         private const int MAX_ALLOWED_PASS_STARTPOINT = 2; // Maximum allowed to pass start point ('K')
-        private readonly (int row, int col) startPoint;    // Start point
         private readonly char[,] maze;         // Maze map configuration
         private readonly int totalTreasure;    // Total treasure inside
+        private (int row, int col) startPoint; // Start point
         private (int row, int col) position;   // Goblin position
         private int totalPassedStartPoint = 0; // passed start point counter
         private bool[,] marker;                // Marker for teleport

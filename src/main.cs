@@ -1,10 +1,6 @@
 using System;
 using System.Collections.Generic;
-using System.Data;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
 using System.Drawing;
 
 namespace Goblin
@@ -12,7 +8,7 @@ namespace Goblin
     public static class Testing
     {
         // change the `Test` to `Main` if want to test partially
-        static void Test(string[] args)
+        static void Main(string[] args)
         {
             char[,] maze = new char[5, 5]
             {
