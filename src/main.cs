@@ -8,7 +8,7 @@ namespace Goblin
     public static class Testing
     {
         // change the `Test` to `Main` if want to test partially
-        static void Main(string[] args)
+        static void Test(string[] args)
         {
             char[,] maze = new char[5, 5]
             {
