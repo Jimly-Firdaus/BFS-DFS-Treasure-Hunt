@@ -5,13 +5,14 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Drawing;
 
 namespace Goblin
 {
     public class Goblin : SolveMaze
     {
         // private string name;
-        private List<char> route = new List<char>();
+        private List<string> route = new List<string>();
         
         public Goblin(int totalTreasure, char[,] maze) : base(totalTreasure, maze)
         {
@@ -27,19 +28,19 @@ namespace Goblin
         {
             this.route = base.DepthFirstSearch();
         }
-        public List<char> GetRoute()
+        
+        public List<string> GetRoute()
         {
             return this.route;
         }
 
-        public int TotalVisitedBFSNodes()
+        public int GetTotalVisitedNodes()
         {
-            return base.GetTotalBFSNodes();
+            return base.GetTotalNodes();
         }
 
-        public int TotalVisitedDFSNodes()
-        {
-            return 0;
+        public List<Point> GetMoveHistory() {
+            return base.GetPosHistory();
         }
     }
 }
