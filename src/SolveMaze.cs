@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Threading;
 
 namespace Goblin
 {
@@ -81,7 +82,7 @@ namespace Goblin
                 this.visitedNodes.Add(currentMoveData.GetVisitedVertex());
 
                 this.Move(currentMoveData.GetPosition());
-
+                
                 // Copy previous node history
                 List<(int row, int col)> currentVisitedVertex = prevUsedVertex.ToList();
                 HashSet<(int row, int col)> recentVisitedTreasure = prevVisitedTreasure.ToHashSet();
