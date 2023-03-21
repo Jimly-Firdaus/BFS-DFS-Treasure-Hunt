@@ -111,7 +111,7 @@ namespace Goblin
                     this.visitedNodes.Add(currentMoveData.GetVisitedVertex());
 
                     this.Move(currentMoveData.GetPosition());
-                    
+
                     // Copy previous node history
                     List<(int row, int col)> currentVisitedVertex = prevUsedVertex.ToList();
                     HashSet<(int row, int col)> recentVisitedTreasure = prevVisitedTreasure.ToHashSet();
@@ -143,12 +143,13 @@ namespace Goblin
                 {
                     // Move to other point based on last node
                     NullifyMarker(lastNodeData);
+                    Console.WriteLine("BACKTRACKING...");
                     List<string> temp = lastNode.GetUsedDirection();
-                    // Mark teleport
-                    string str = "T(" + this.position.row + "," + this.position.col + ")";
-                    temp.Add(str);
+                    // TODO: find the route from the latest node to this position
+                    List<string> backtrackedRoute = MiniBreadthFirstSearch(lastNode.GetPosition(), this.position);
+                    List<string> fullRoute = temp.Concat(backtrackedRoute).ToList();
                     // Restart BFS by adding new node to BFS Queue
-                    bfsQueue.Enqueue(new BFSNode(this.position, temp, lastNode.GetVisitedVertex(), lastNode.GetVisitedTreasure()));                    
+                    bfsQueue.Enqueue(new BFSNode(this.position, fullRoute, lastNode.GetVisitedVertex(), lastNode.GetVisitedTreasure()));                    
                 }
             }
             return this.finalRoute;
@@ -256,6 +257,107 @@ namespace Goblin
         public List<Point> GetPosHistory() 
         {
             return this.positionHistory;
+        }
+        
+        private List<string> MiniBreadthFirstSearch((int row, int col) startPoint, (int row, int col) finishPoint) 
+        {
+            char [,] dummyMap = new char[this.maze.GetLength(0), this.maze.GetLength(1)];
+            (int row, int col) goblinGhost = startPoint;
+            // Bound index
+            (int row, int col) maxIndex = (this.maze.GetLength(0), this.maze.GetLength(1));
+            for (int i = 0; i < this.maze.GetLength(0); i++) 
+            {
+                for (int j = 0; j < this.maze.GetLength(0); j++) 
+                {
+                    if (finishPoint == (i, j)) 
+                    {
+                        dummyMap[i, j] = 'T';
+                    }
+                    else 
+                    {
+                        if (this.maze[i, j] == 'T' || this.maze[i, j] == 'K') 
+                        {
+                            dummyMap[i, j] = 'R';
+                        } 
+                        else 
+                        {
+                            dummyMap[i, j] = this.maze[i, j];
+                        }
+                    }
+                    if (startPoint == (i, j)) 
+                    {
+                        dummyMap[i, j] = 'K';
+                    }
+                }   
+            }
+
+            // Initiate first element & BFS Queue
+            Queue<BFSNode> bfsQueue = new Queue<BFSNode>();
+            List<string> usedDirection = new List<string>();
+            List<(int row, int col)> visitedVertex = new List<(int row, int col)> { goblinGhost };
+            HashSet<(int row, int col)> visitedTreasure = new HashSet<(int row, int col)>();
+            bfsQueue.Enqueue(new BFSNode(goblinGhost, usedDirection, visitedVertex, visitedTreasure));
+            BFSNode resultingStartNode = new BFSNode(goblinGhost, usedDirection, visitedVertex, visitedTreasure);
+            bool found = false;
+            while (!found) {
+                // Get node history
+                List<string> prevUsedDirection = bfsQueue.Peek().GetUsedDirection();
+                List<(int row, int col)> prevUsedVertex = bfsQueue.Peek().GetVisitedVertex();
+                HashSet<(int row, int col)> prevVisitedTreasure = bfsQueue.Peek().GetVisitedTreasure();
+                BFSNode currentMoveData = bfsQueue.Dequeue();
+
+                goblinGhost = currentMoveData.GetPosition();
+                Point position = new Point(goblinGhost.col, goblinGhost.row);
+                this.positionHistory.Add(position);
+
+                // Copy previous node history
+                List<(int row, int col)> currentVisitedVertex = prevUsedVertex.ToList();
+                HashSet<(int row, int col)> recentVisitedTreasure = prevVisitedTreasure.ToHashSet();
+                currentVisitedVertex.Add(goblinGhost);
+
+                if (dummyMap[goblinGhost.row, goblinGhost.col] == 'T')
+                {
+                    found = true;
+                    resultingStartNode = currentMoveData;
+                }
+
+                // Check every adjacent from current position
+                // Path Find Priority : left, up, right, down
+                // Enqueue every node if it hasn't been visited yet + save its history move
+                if (goblinGhost.col - 1 >= 0 && dummyMap[goblinGhost.row, goblinGhost.col - 1] != 'X')
+                {
+                    if (!currentMoveData.IsVisited((goblinGhost.row, goblinGhost.col - 1)))
+                    {
+                        List<string> temp = new List<string>(prevUsedDirection) { "L" }; // ToList() to copy prevUsedDirection since assignment to object is a reference
+                        bfsQueue.Enqueue(new BFSNode((goblinGhost.row, goblinGhost.col - 1), temp, currentVisitedVertex, recentVisitedTreasure));
+                    }
+                }
+                if (goblinGhost.row - 1 >= 0 && dummyMap[goblinGhost.row - 1, goblinGhost.col] != 'X')
+                {
+                    if (!currentMoveData.IsVisited((goblinGhost.row - 1, goblinGhost.col)))
+                    {
+                        List<string> temp = new List<string>(prevUsedDirection) { "U" }; 
+                        bfsQueue.Enqueue(new BFSNode((goblinGhost.row - 1, goblinGhost.col), temp, currentVisitedVertex, recentVisitedTreasure));
+                    }
+                }
+                if (goblinGhost.col + 1 < maxIndex.col && dummyMap[goblinGhost.row, goblinGhost.col + 1] != 'X')
+                {
+                    if (!currentMoveData.IsVisited((goblinGhost.row, goblinGhost.col + 1)))
+                    {
+                        List<string> temp = new List<string>(prevUsedDirection) { "R" };
+                        bfsQueue.Enqueue(new BFSNode((goblinGhost.row, goblinGhost.col + 1), temp, currentVisitedVertex, recentVisitedTreasure));
+                    }
+                }
+                if (goblinGhost.row + 1 < maxIndex.row && dummyMap[goblinGhost.row + 1, goblinGhost.col] != 'X')
+                {
+                    if (!currentMoveData.IsVisited((goblinGhost.row + 1, goblinGhost.col)))
+                    {
+                        List<string> temp = new List<string>(prevUsedDirection) { "D" };
+                        bfsQueue.Enqueue(new BFSNode((goblinGhost.row + 1, goblinGhost.col), temp, currentVisitedVertex, recentVisitedTreasure));
+                    }
+                }
+            }
+            return resultingStartNode.GetUsedDirection();
         }
 
         /**
