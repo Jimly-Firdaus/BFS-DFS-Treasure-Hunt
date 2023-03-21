@@ -34,7 +34,11 @@ namespace Goblin {
 
         public void setPathColor(ref Panel panel){
             if (!_defColors.Contains(panel.BackColor)){
-                Color darkerColor = Color.FromArgb(panel.BackColor.R / 2, panel.BackColor.G / 2, panel.BackColor.B / 2);
+                Color darkerColor = Color.FromArgb(
+                    (int)(panel.BackColor.R * 0.95 / 2),
+                    (int)(panel.BackColor.G * 0.95 / 2),
+                    (int)(panel.BackColor.B * 0.95 / 2)
+                );
                 panel.BackColor =  darkerColor;
             } else {
                 panel.BackColor = Color.LightGreen;
