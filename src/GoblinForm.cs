@@ -7,11 +7,12 @@ namespace Goblin
 {
     public partial class GoblinForm : Form
     {
-        private Panel[,] _panels;
-        private char[,] _maze;
+        internal Panel[,] _panels;
+        internal char[,] _maze;
         private Point _krustyKrab;
         private List<string> _route;
         private string _filename;
+        private int _treasureCount = 0;
 
         // Label
         private Label pathLabel;
@@ -19,22 +20,22 @@ namespace Goblin
         private Label stepCount;
         private Label executionTime;
 
-        public Color checkColor(char type)
-        {
-            if (type == 'X')
-            {
-                return Color.Black;
-            }
-            else if (type == 'T')
-            {
-                return Color.Gold;
-            }
-            else if (type == 'K')
-            { 
-                return Color.Red;
-            }
-            return Color.White;
-        }
+        // public Color checkColor(char type)
+        // {
+        //     if (type == 'X')
+        //     {
+        //         return Color.Black;
+        //     }
+        //     else if (type == 'T')
+        //     {
+        //         return Color.Gold;
+        //     }
+        //     else if (type == 'K')
+        //     { 
+        //         return Color.Red;
+        //     }
+        //     return Color.White;
+        // }
 
         public void resetAllAttribute(){
             // Release resources used by _panels
@@ -56,6 +57,7 @@ namespace Goblin
             _maze = null;
             _krustyKrab = default(Point);
             _route = null;
+            _treasureCount = 0;
         }
 
         public GoblinForm()
@@ -96,30 +98,16 @@ namespace Goblin
                 char[] row = lines[i].ToCharArray();
                 for (int j = 0; j < columns; j++)
                 {
-                    createNewPanel(i, j, row[j]);
+                    createMazePanel(i, j, row[j]);
                     _maze[i, j] = row[j];
                 }
             }
         }
 
-        private void createNewPanel(int i, int j, char type)
+        private void createMazePanel(int i, int j, char type)
         {
             // construct panel
             Panel panel = new Panel();
-
-            // add event handler for panelMazeContainer's SizeChanged event
-            panelMazeContainer.SizeChanged += (sender, e) =>
-            {
-                int parentWidth = panelMazeContainer.ClientSize.Width;
-                int parentHeight = panelMazeContainer.ClientSize.Height;
-                int panelSize = Math.Min((int)(parentWidth / _maze.GetLength(1)), (int)(parentHeight / _maze.GetLength(0)));
-
-                // set panel location and size
-                int deltaJ = (int)((panelMazeContainer.Width - _panels.GetLength(1) * panelSize) / 2);
-                int deltaI = (int)((panelMazeContainer.Height - _panels.GetLength(0) * panelSize) / 2);
-                panel.Location = new Point((j * panelSize) + deltaJ, (i * panelSize) + deltaI);
-                panel.Size = new Size(panelSize, panelSize);
-            };
 
             // calculate panel size based on the number of rows and columns in _maze
             int parentWidth = panelMazeContainer.ClientSize.Width;
@@ -131,26 +119,17 @@ namespace Goblin
             int deltaI = (int)((panelMazeContainer.Height - _panels.GetLength(0) * panelSize)/2);
             panel.Location = new Point((j * panelSize ) + deltaJ, (i * panelSize) + deltaI);
             panel.Size = new Size(panelSize, panelSize);
+            // panel.BackgroundImage = Image.FromFile("C:\\Users\\Jeffrey Chow\\Documents\\ITB\\4th Semester\\IF2211 Algorithm Strategies\\Tubes 2\\repository\\spongebob.png");
+            // panel.BackgroundImageLayout = ImageLayout.Stretch;
 
-            // check Coloring
-            panel.BackColor = checkColor(type);
-            // panel.BackColor = Color.White;
-            // if (type == 'X')
-            // {
-            //     panel.BackColor = Color.Black;
-            // }
-            // else if (type == 'T')
-            // {
-            //     panel.BackColor = Color.Gold;
-            // }
-            // else if (type == 'K')
-            // {
-            //     _krustyKrab = new Point(i, j);
-            //     panel.BackColor = Color.Red;
-            // }
+            panel.BackColor = getDefaultColor(type);
 
             if (type == 'K'){
                 _krustyKrab = new Point(i,j);
+            }
+
+            if (type == 'T'){
+                _treasureCount++;
             }
 
             // create label to display type
@@ -171,38 +150,63 @@ namespace Goblin
 
             // add panel to panelMazeContainer
             panelMazeContainer.Controls.Add(_panels[i, j]);
+
+            // add event handler for panelMazeContainer's SizeChanged event
+            panelMazeContainer.SizeChanged += (sender, e) =>
+            {
+                int parentWidth = panelMazeContainer.ClientSize.Width;
+                int parentHeight = panelMazeContainer.ClientSize.Height;
+                int panelSize = Math.Min((int)(parentWidth / _maze.GetLength(1)), (int)(parentHeight / _maze.GetLength(0)));
+
+                // set panel location and size
+                int deltaJ = (int)((panelMazeContainer.Width - _panels.GetLength(1) * panelSize) / 2);
+                int deltaI = (int)((panelMazeContainer.Height - _panels.GetLength(0) * panelSize) / 2);
+                panel.Location = new Point((j * panelSize) + deltaJ, (i * panelSize) + deltaI);
+                panel.Size = new Size(panelSize, panelSize);
+            };
         }
 
         private async Task updateColorFromRoute(List<string> routes)
         {
-            await Task.Delay(200); // wait for one second
+            await Task.Delay(200); // wait for 200ms
             Point toChange = _krustyKrab;
 
+            Color temp = _panels[toChange.Y, toChange.X].BackColor;
+
             // change the krusty krab color
-            _panels[toChange.Y, toChange.X].BackColor = Color.Green;
+            setVisitColor(ref _panels[toChange.Y, toChange.X]);
 
             foreach (string route in routes)
             {
-                await Task.Delay(200); // wait for one second
+
+                await Task.Delay(200); // wait for 200ms
+                setPanelColor(ref _panels[toChange.Y, toChange.X], temp);
+                setPathColor(ref _panels[toChange.Y, toChange.X]);
+
                 movePoint(ref toChange, route);
-                _panels[toChange.Y, toChange.X].BackColor = Color.Green;
+
+                temp = _panels[toChange.Y, toChange.X].BackColor;
+                setVisitColor(ref _panels[toChange.Y, toChange.X]);
             }
+
+            setPanelColor(ref _panels[toChange.Y, toChange.X], temp);
+            setPathColor(ref _panels[toChange.Y, toChange.X]);
         }
 
-        private void movePoint(ref Point point, char direction)
+        private void movePoint(ref Point point, string direction)
         {
             switch (direction)
             {
-                case 'L':
+                case "L":
                     point.X -= 1; // move left
                     break;
-                case 'R':
+                case "R":
                     point.X += 1; // move right
                     break;
-                case 'U':
+                case "U":
                     point.Y -= 1; // move up
                     break;
-                case 'D':
+                case "D":
                     point.Y += 1; // move down
                     break;
                 default:
@@ -213,49 +217,22 @@ namespace Goblin
 
         private void handleInputPanel()
         {
-            // panel_input properties
-            int panelWidth = panel_input.Width;
-            int panelHeight = panel_input.Height;
-            int gap = (int)(panelHeight * 0.05); 
+            // Initialized Labels and Buttons
+            Label inputLabel = new Label();
 
-            // Input Panel
-            Panel inputPanel = new Panel();
-            inputPanel.BackColor = System.Drawing.Color.Red;
-            inputPanel.BorderStyle = BorderStyle.FixedSingle;
-            inputPanel.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
-            inputPanel.Height = (int)(panelHeight * 0.10);
-            inputPanel.Width = panelWidth;
-            inputPanel.Top = gap;
+            Label filenameLabel = new Label();
+            Button openFileBtn = new Button();
 
-            // File Panel
-            Panel filePanel = new Panel();
-            filePanel.BackColor = System.Drawing.Color.LightCyan;
-            filePanel.BorderStyle = BorderStyle.FixedSingle;
-            filePanel.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
-            filePanel.Height = (int)(panelHeight * 0.20);
-            filePanel.Width = panelWidth;
-            filePanel.Top = inputPanel.Bottom + gap; // add gap
+            Label algorithmLabel = new Label();
+            GroupBox groupBox1 = new GroupBox();
+            RadioButton choiceBFS = new RadioButton();
+            RadioButton choiceDFS = new RadioButton();
 
-            // Algorithm Panel
-            Panel algorithmPanel = new Panel();
-            algorithmPanel.BackColor = System.Drawing.Color.LightGray;
-            algorithmPanel.BorderStyle = BorderStyle.FixedSingle;
-            algorithmPanel.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
-            algorithmPanel.Height = (int)(panelHeight * 0.30);
-            algorithmPanel.Width = panelWidth;
-            algorithmPanel.Top = filePanel.Bottom + gap; // add gap
-
-            // Run Panel
-            Panel runPanel = new Panel();
-            runPanel.BackColor = System.Drawing.Color.LightGreen;
-            runPanel.BorderStyle = BorderStyle.FixedSingle;
-            runPanel.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
-            runPanel.Height = (int)(panelHeight * 0.15);
-            runPanel.Width = panelWidth;
-            runPanel.Top = algorithmPanel.Bottom + gap; // add gap
+            Button runBtn = new Button();
+            Button showRoute = new Button();
+            Button showStep = new Button();
 
             // Label "Input"
-            Label inputLabel = new Label();
             inputLabel.Text = "Input";
             inputLabel.AutoSize = true;
             float inputFontSize = inputPanel.Height * 0.25f;
@@ -264,7 +241,6 @@ namespace Goblin
             inputPanel.Controls.Add(inputLabel);
 
             // Label "Filename"
-            Label filenameLabel = new Label();
             filenameLabel.Text = "Filename : ";
             filenameLabel.AutoSize = true;
             float fileFontSize = inputPanel.Height * 0.15f;
@@ -273,7 +249,6 @@ namespace Goblin
             filePanel.Controls.Add(filenameLabel);
 
             // Open File Button
-            Button openFileBtn = new Button();
             openFileBtn.Text = "Open File";
             openFileBtn.Location = new Point(0, filenameLabel.Bottom + 10);
             openFileBtn.Size = new Size((int)(0.8 * filePanel.Width), (int)(0.4 * filePanel.Height));
@@ -288,12 +263,13 @@ namespace Goblin
                     _filename = dialog.FileName;
                     readFile(_filename);
                     filenameLabel.Text = "Filename : " + Path.GetFileName(_filename);
+                    showRoute.Enabled = false;
+                    showStep.Enabled = false;
                 }
             });
             filePanel.Controls.Add(openFileBtn);
 
             // Label "Algoritma"
-            Label algorithmLabel = new Label();
             algorithmLabel.Text = "Algoritma : ";
             float algoFontSize = inputPanel.Height * 0.15f;
             algorithmLabel.Font = new Font(algorithmLabel.Font.FontFamily, algoFontSize, FontStyle.Bold);
@@ -302,18 +278,15 @@ namespace Goblin
             algorithmPanel.Controls.Add(algorithmLabel);
 
             // Group box + radio checker
-            GroupBox groupBox1 = new GroupBox();
             groupBox1.Location = new Point(0, algorithmLabel.Bottom);
             groupBox1.Size = new Size(algorithmPanel.Width, (int)(0.8 * algorithmPanel.Height));
             groupBox1.BackColor = Color.Red;
 
-            RadioButton choiceBFS = new RadioButton();
             choiceBFS.Text = "BFS";
             choiceBFS.ForeColor = Color.Black;
             choiceBFS.Location = new Point(0, (int)(0.2 * groupBox1.Height));
             choiceBFS.Size = new Size(groupBox1.Width, (int)(0.4 * groupBox1.Height));
 
-            RadioButton choiceDFS = new RadioButton();
             choiceDFS.Text = "DFS";
             choiceDFS.ForeColor = Color.Black;
             choiceDFS.Location = new Point(0, (int)(0.6 * groupBox1.Height));
@@ -326,22 +299,28 @@ namespace Goblin
 
             // Run Button
             bool runned = false;
-            Button runBtn = new Button();
             runBtn.Text = "Run";
-            runBtn.Location = new Point(0, 0);
-            runBtn.Size = new Size((int) (0.8 * runPanel.Width),(int)(0.5 * runPanel.Height));
-            runBtn.Click += new EventHandler((sender, e) =>
+            runBtn.Location = new Point((int)(0.1 * runPanel.Width), 0);
+            runBtn.Size = new Size((int) (0.8 * runPanel.Width),(int)(0.45 * runPanel.Height));
+            runBtn.Click += async (sender, e) =>
             {
+                openFileBtn.Enabled = false;
+                groupBox1.Enabled = false;
+                choiceBFS.Enabled = false;
+                choiceDFS.Enabled = false;
+                runBtn.Enabled = false;
+                showStep.Enabled = false;
+                showRoute.Enabled = false;
+                
                 if (runned){
                     resetAllAttribute();
                     readFile(_filename);
                     runned = false;
                 }
 
+                Goblin goblin = new Goblin(_treasureCount, _maze);
                 if (choiceBFS.Checked)
                 {
-                    Goblin goblin = new Goblin(2, _maze);
-
                     var watch = new System.Diagnostics.Stopwatch();
                    
                     watch.Start();  
@@ -352,7 +331,7 @@ namespace Goblin
 
                     _route = goblin.GetRoute();
 
-                    updateColorFromRoute(_route);
+                    await updateColorFromRoute(_route);
 
                     // update pathLabel
                     String routePath = "";
@@ -370,12 +349,10 @@ namespace Goblin
                     nodeCount.Text = goblin.GetTotalVisitedNodes().ToString();
                     
                     // update executionTime
-                    executionTime.Text = (watch.ElapsedMilliseconds).ToString();  
+                    executionTime.Text = (watch.ElapsedMilliseconds).ToString() + " ms";  
                 }
 
                 if (choiceDFS.Checked) { 
-                    Goblin goblin = new Goblin(2, _maze);
-
                     var watch = new System.Diagnostics.Stopwatch();
                    
                     watch.Start();  
@@ -386,7 +363,7 @@ namespace Goblin
 
                     _route = goblin.GetRoute();
 
-                    updateColorFromRoute(_route);
+                    await updateColorFromRoute(_route);
 
                     // update pathLabel
                     String routePath = "";
@@ -404,42 +381,76 @@ namespace Goblin
                     nodeCount.Text = goblin.GetTotalVisitedNodes().ToString();
                     
                     // update executionTime
-                    executionTime.Text = (watch.ElapsedMilliseconds).ToString();
+                    executionTime.Text = (watch.ElapsedMilliseconds).ToString() + " ms";
                 }
-            });
+
+                openFileBtn.Enabled = true;
+                groupBox1.Enabled = true;
+                choiceBFS.Enabled = true;
+                choiceDFS.Enabled = true;
+                runBtn.Enabled = true;
+                showStep.Enabled = true;
+                showRoute.Enabled = true;
+            };
+            
+            // showRoute button
+            showRoute.Text = "Show Route";
+            showRoute.Location = new Point((int)(0.1 * runPanel.Width), (int)(0.5 * runPanel.Height));
+            showRoute.Size = new Size((int) (0.4 * runPanel.Width),(int)(0.45 * runPanel.Height));
+            showRoute.Click += async (sender, e) => {
+                openFileBtn.Enabled = false;
+                groupBox1.Enabled = false;
+                choiceBFS.Enabled = false;
+                choiceDFS.Enabled = false;
+                runBtn.Enabled = false;
+                showStep.Enabled = false;
+                showRoute.Enabled = false;
+
+                resetPanelColor();
+                await updateColorFromRoute(_route);
+
+                openFileBtn.Enabled = true;
+                groupBox1.Enabled = true;
+                choiceBFS.Enabled = true;
+                choiceDFS.Enabled = true;
+                runBtn.Enabled = true;
+                showStep.Enabled = true;
+                showRoute.Enabled = true;
+            };
+            showRoute.Enabled = false;
+
+            // showStep button
+            showStep.Text = "Show Step";
+            showStep.Location = new Point((int)(0.5 * runPanel.Width), (int)(0.5 * runPanel.Height));
+            showStep.Size = new Size((int) (0.4 * runPanel.Width),(int)(0.45 * runPanel.Height));
+            showStep.Click += async (sender, e) => {
+                openFileBtn.Enabled = false;
+                groupBox1.Enabled = false;
+                choiceBFS.Enabled = false;
+                choiceDFS.Enabled = false;
+                runBtn.Enabled = false;
+                showStep.Enabled = false;
+                showRoute.Enabled = false;
+
+                resetPanelColor();
+                await updateColorFromRoute(_route);
+
+                openFileBtn.Enabled = true;
+                groupBox1.Enabled = true;
+                choiceBFS.Enabled = true;
+                choiceDFS.Enabled = true;
+                runBtn.Enabled = true;
+                showStep.Enabled = true;
+                showRoute.Enabled = true;
+            };
+            showStep.Enabled = false;
+
+            // add buttons to runPanel
+            runPanel.Controls.Add(showRoute);
+            runPanel.Controls.Add(showStep);
             runPanel.Controls.Add(runBtn);
 
-            panel_input.Controls.Add(inputPanel);
-            panel_input.Controls.Add(filePanel);
-            panel_input.Controls.Add(algorithmPanel);
-            panel_input.Controls.Add(runPanel);
-
-            // responsiveness
             panel_input.Resize += (sender, e) => {
-                int panelWidth = panel_input.Width;
-                int panelHeight = panel_input.Height;
-                int gap = (int)(panelHeight * 0.05);
-
-                // Update Input Panel
-                inputPanel.Width = panelWidth;
-                inputPanel.Height = (int)(panelHeight * 0.1);
-                inputPanel.Top = gap;
-
-                // Update File Panel
-                filePanel.Width = panelWidth;
-                filePanel.Height = (int)(panelHeight * 0.2);
-                filePanel.Top = inputPanel.Bottom + gap;
-
-                // Update Algorithm Panel
-                algorithmPanel.Width = panelWidth;
-                algorithmPanel.Height = (int)(panelHeight * 0.3);
-                algorithmPanel.Top = filePanel.Bottom + gap;
-
-                // Update Run Panel
-                runPanel.Width = panelWidth;
-                runPanel.Height = (int)(panelHeight * 0.15);
-                runPanel.Top = algorithmPanel.Bottom + gap;
-
                 // Update Input Label
                 float inputFontSize = inputPanel.Height * 0.25f;
                 inputLabel.Font = new Font(inputLabel.Font.FontFamily, inputFontSize, FontStyle.Bold);
