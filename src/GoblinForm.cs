@@ -10,7 +10,7 @@ namespace Goblin
         internal Panel[,] _panels;
         internal char[,] _maze;
         private Point _krustyKrab;
-        private List<string> _route;
+        private List<char> _route;
         private string _filename;
         private int _treasureCount = 0;
 
@@ -166,7 +166,7 @@ namespace Goblin
             };
         }
 
-        private async Task updateColorFromRoute(List<string> routes)
+        private async Task updateColorFromRoute(List<char> routes)
         {
             await Task.Delay(200); // wait for 200ms
             Point toChange = _krustyKrab;
@@ -176,7 +176,7 @@ namespace Goblin
             // change the krusty krab color
             setVisitColor(ref _panels[toChange.Y, toChange.X]);
 
-            foreach (string route in routes)
+            foreach (char route in routes)
             {
 
                 await Task.Delay(200); // wait for 200ms
@@ -193,20 +193,20 @@ namespace Goblin
             setPathColor(ref _panels[toChange.Y, toChange.X]);
         }
 
-        private void movePoint(ref Point point, string direction)
+        private void movePoint(ref Point point, char direction)
         {
             switch (direction)
             {
-                case "L":
+                case 'L':
                     point.X -= 1; // move left
                     break;
-                case "R":
+                case 'R':
                     point.X += 1; // move right
                     break;
-                case "U":
+                case 'U':
                     point.Y -= 1; // move up
                     break;
-                case "D":
+                case 'D':
                     point.Y += 1; // move down
                     break;
                 default:
@@ -335,7 +335,7 @@ namespace Goblin
 
                     // update pathLabel
                     String routePath = "";
-                    foreach (string route in _route)
+                    foreach (char route in _route)
                     {
                         routePath += route.ToString();
                     }
@@ -367,7 +367,7 @@ namespace Goblin
 
                     // update pathLabel
                     String routePath = "";
-                    foreach (string route in _route)
+                    foreach (char route in _route)
                     {
                         routePath += route.ToString();
                     }

@@ -8,7 +8,7 @@ namespace Goblin
     public class Goblin : SolveMaze
     {
         // private string name;
-        private List<string> route = new List<string>();
+        private List<char> route = new List<char>();
         
         public Goblin(int totalTreasure, char[,] maze) : base(totalTreasure, maze)
         {
@@ -25,7 +25,7 @@ namespace Goblin
             this.route = base.DepthFirstSearch();
         }
         
-        public List<string> GetRoute()
+        public List<char> GetRoute()
         {
             return this.route;
         }

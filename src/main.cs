@@ -22,7 +22,7 @@ namespace Goblin
             Goblin goblin = new Goblin(2, maze);
             Console.WriteLine("----------------BFS----------------");
             goblin.SolveWithBFS();
-            List<string> bfsRoute = goblin.GetRoute();
+            List<char> bfsRoute = goblin.GetRoute();
             Console.WriteLine("\nTotal nodes: " + goblin.GetTotalVisitedNodes());
             Console.Write("Route : ");
             for (int i = 0; i < bfsRoute.Count; i++)
@@ -38,7 +38,7 @@ namespace Goblin
             Console.WriteLine("\nTotal Direction : " + bfsRoute.Count);
             Console.WriteLine("----------------DFS----------------");
             goblin.SolveWithDFS();
-            List<string> dfsRoute = goblin.GetRoute();
+            List<char> dfsRoute = goblin.GetRoute();
             Console.WriteLine("Total nodes: " + goblin.GetTotalVisitedNodes());
             Console.Write("Route : ");
             for (int i = 0; i < dfsRoute.Count; i++)
