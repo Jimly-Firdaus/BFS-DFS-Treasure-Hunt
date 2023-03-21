@@ -85,8 +85,11 @@ namespace Goblin
             // Onchange
             this.SizeChanged += new EventHandler(GoblinForm_Resize);
 
-            // output_panel children
-            createOutputPanel();
+            // panel_input children
+            createInputPanels();
+
+            // panel_output children
+            createOutputPanels();
         }
 
         private void GoblinForm_Resize(object sender, EventArgs e)
@@ -109,7 +112,83 @@ namespace Goblin
             panel_title.Size = new Size((int)(0.9 * formWidth), (int)(0.1 * formHeight));
         }
 
-        private void createOutputPanel()
+        private void createInputPanels(){
+            // panel_input properties
+            int panelWidth = panel_input.Width;
+            int panelHeight = panel_input.Height;
+            int gap = (int)(panelHeight * 0.05); 
+
+            // Input Panel
+            inputPanel = new Panel();
+            inputPanel.BackColor = System.Drawing.Color.Red;
+            inputPanel.BorderStyle = BorderStyle.FixedSingle;
+            inputPanel.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
+            inputPanel.Height = (int)(panelHeight * 0.10);
+            inputPanel.Width = panelWidth;
+            inputPanel.Top = gap;
+
+            // File Panel
+            filePanel = new Panel();
+            filePanel.BackColor = System.Drawing.Color.LightCyan;
+            filePanel.BorderStyle = BorderStyle.FixedSingle;
+            filePanel.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
+            filePanel.Height = (int)(panelHeight * 0.20);
+            filePanel.Width = panelWidth;
+            filePanel.Top = inputPanel.Bottom + gap; // add gap
+
+            // Algorithm Panel
+            algorithmPanel = new Panel();
+            algorithmPanel.BackColor = System.Drawing.Color.LightGray;
+            algorithmPanel.BorderStyle = BorderStyle.FixedSingle;
+            algorithmPanel.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
+            algorithmPanel.Height = (int)(panelHeight * 0.30);
+            algorithmPanel.Width = panelWidth;
+            algorithmPanel.Top = filePanel.Bottom + gap; // add gap
+
+            // Run Panel
+            runPanel = new Panel();
+            runPanel.BackColor = System.Drawing.Color.LightGreen;
+            runPanel.BorderStyle = BorderStyle.FixedSingle;
+            runPanel.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
+            runPanel.Height = (int)(panelHeight * 0.15);
+            runPanel.Width = panelWidth;
+            runPanel.Top = algorithmPanel.Bottom + gap; // add gap
+
+            panel_input.Controls.Add(inputPanel);
+            panel_input.Controls.Add(filePanel);
+            panel_input.Controls.Add(algorithmPanel);
+            panel_input.Controls.Add(runPanel);
+
+            // responsiveness
+            panel_input.Resize += (sender, e) => {
+                int panelWidth = panel_input.Width;
+                int panelHeight = panel_input.Height;
+                int gap = (int)(panelHeight * 0.05);
+
+                // Update Input Panel
+                inputPanel.Width = panelWidth;
+                inputPanel.Height = (int)(panelHeight * 0.1);
+                inputPanel.Top = gap;
+
+                // Update File Panel
+                filePanel.Width = panelWidth;
+                filePanel.Height = (int)(panelHeight * 0.2);
+                filePanel.Top = inputPanel.Bottom + gap;
+
+                // Update Algorithm Panel
+                algorithmPanel.Width = panelWidth;
+                algorithmPanel.Height = (int)(panelHeight * 0.3);
+                algorithmPanel.Top = filePanel.Bottom + gap;
+
+                // Update Run Panel
+                runPanel.Width = panelWidth;
+                runPanel.Height = (int)(panelHeight * 0.15);
+                runPanel.Top = algorithmPanel.Bottom + gap;
+
+            };
+        }
+
+        private void createOutputPanels()
         {
             int parentWidth = panel_output.Width;
             int parentHeight = panel_output.Height;
@@ -171,6 +250,10 @@ namespace Goblin
         internal Panel panelOutputTitle;
         internal Panel panelMazeContainer;
         internal Panel panelInfoContainer;
+        internal Panel inputPanel;
+        internal Panel filePanel;
+        internal Panel algorithmPanel;
+        internal Panel runPanel;
         private Panel panel_title;
     }
 }
