@@ -7,7 +7,7 @@
     <UseWindowsForms>true</UseWindowsForms>
     <ImplicitUsings>enable</ImplicitUsings>
     <BaseOutputPath>../bin</BaseOutputPath>
-    <BaseIntermediateOutputPath>../obj</BaseIntermediateOutputPath>
+    <BaseIntermediateOutputPath>../bin/obj</BaseIntermediateOutputPath>
   </PropertyGroup>
 
 </Project>
