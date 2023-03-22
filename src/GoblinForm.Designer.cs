@@ -1,6 +1,4 @@
-﻿using System.Diagnostics;
-
-namespace Goblin
+﻿namespace Goblin
 {
     partial class GoblinForm
     {
@@ -23,37 +21,12 @@ namespace Goblin
         }
 
         #region Windows Form Designer generated code
-
-        // private async void SetBackgroundImageAsync(string imagePath)
-        // {
-        //     var image = await Task.Run(() => Image.FromFile(imagePath));
-        //     if (image != null)
-        //     {
-        //         this.BackgroundImage = image;
-        //     }
-        // }
-
-        /// <summary>
-        ///  Required method for Designer support - do not modify
-        ///  the contents of this method with the code editor.
-        /// </summary>
         private void InitializeComponent()
         {
-            // this.BackgroundImage = Image.FromFile("C:\\Users\\Jeffrey Chow\\Documents\\ITB\\4th Semester\\IF2211 Algorithm Strategies\\Tubes 2\\repository\\background.jpg");
-            // this.BackgroundImageLayout = ImageLayout.None;
-
-            // SetBackgroundImageAsync("C:\\Users\\Jeffrey Chow\\Documents\\ITB\\4th Semester\\IF2211 Algorithm Strategies\\Tubes 2\\repository\\background.jpg");
-
-            // Panel panel1 = new Panel();
-            // panel1.Dock = DockStyle.Fill;
-            // this.Controls.Add(panel1);
-
-            // PictureBox pictureBox1 = new PictureBox();
-            // pictureBox1.Dock = DockStyle.Fill;
-            // pictureBox1.Image = Image.FromFile("C:\\Users\\Jeffrey Chow\\Documents\\ITB\\4th Semester\\IF2211 Algorithm Strategies\\Tubes 2\\repository\\background.jpg");
-            // panel1.Controls.Add(pictureBox1);
+            // set main background color
             this.BackColor = Color.Azure;
             
+            // initialize panels and pictureBox
             panel_input = new Panel();
             panel_output = new Panel();
             panel_title = new Panel();
@@ -63,10 +36,11 @@ namespace Goblin
             // Form dimensions
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            // ClientSize = new Size(940, 414);
-            this.WindowState = FormWindowState.Maximized;
-            // ClientSize = new Size(Screen.PrimaryScreen.Bounds.Width, Screen.PrimaryScreen.Bounds.Height);
 
+            // set default window to be fullscreen
+            this.WindowState = FormWindowState.Maximized;
+
+            // update the formWidth and formHeight attributes
             formWidth = ClientRectangle.Size.Width;
             formHeight = ClientRectangle.Size.Height;
 
@@ -74,7 +48,6 @@ namespace Goblin
             // panel_input
             // 
             panel_input.Location = new Point((int)(0.05 * formWidth), (int)(0.2 * formHeight));
-            // panel_input.Margin = new Padding(2, 1, 2, 1);
             panel_input.Name = "panel_input";
             panel_input.Size = new Size((int)(0.225 * formWidth), (int)(0.75 * formHeight));
             panel_input.TabIndex = 0;
@@ -82,7 +55,6 @@ namespace Goblin
             // panel_output
             // 
             panel_output.Location = new Point((int)(0.315 * formWidth), (int)(0.2 * formHeight));
-            // panel_output.Margin = new Padding(2, 1, 2, 1);
             panel_output.Name = "panel_output";
             panel_output.Size = new Size((int)(0.675 * formWidth), (int)(0.75 * formHeight));
             panel_output.TabIndex = 1;
@@ -96,7 +68,6 @@ namespace Goblin
             panel_title.BackColor = Color.Transparent;
 
             // line separator
-            
             hr.BackColor = Color.SkyBlue;
             hr.Location = new Point((int)(0.05 * formWidth), (int)(0.175 * formHeight));
             hr.Size = new Size((int)(0.9 * formWidth), (int)(0.005 * formHeight));
@@ -132,18 +103,20 @@ namespace Goblin
             formWidth = ClientRectangle.Size.Width;
             formHeight = ClientRectangle.Size.Height;
 
-            // update all panel
-            panel_input.Location = new Point((int)(0.05 * formWidth), (int)(0.2 * formHeight));
-            panel_input.Size = new Size((int)(0.225 * formWidth), (int)(0.75 * formHeight));
+            if (formWidth > 0 && formHeight > 0){
+                // update all panel
+                panel_input.Location = new Point((int)(0.05 * formWidth), (int)(0.2 * formHeight));
+                panel_input.Size = new Size((int)(0.225 * formWidth), (int)(0.75 * formHeight));
 
-            panel_output.Location = new Point((int)(0.315 * formWidth), (int)(0.2 * formHeight));
-            panel_output.Size = new Size((int)(0.675 * formWidth), (int)(0.75 * formHeight));
+                panel_output.Location = new Point((int)(0.315 * formWidth), (int)(0.2 * formHeight));
+                panel_output.Size = new Size((int)(0.675 * formWidth), (int)(0.75 * formHeight));
 
-            panel_title.Location = new Point((int)(0.05 * formWidth), (int)(0.05 * formHeight));
-            panel_title.Size = new Size((int)(0.9 * formWidth), (int)(0.1 * formHeight));
+                panel_title.Location = new Point((int)(0.05 * formWidth), (int)(0.05 * formHeight));
+                panel_title.Size = new Size((int)(0.9 * formWidth), (int)(0.1 * formHeight));
 
-            hr.Location = new Point((int)(0.05 * formWidth), (int)(0.175 * formHeight));
-            hr.Size = new Size((int)(0.9 * formWidth), (int)(0.005 * formHeight));
+                hr.Location = new Point((int)(0.05 * formWidth), (int)(0.175 * formHeight));
+                hr.Size = new Size((int)(0.9 * formWidth), (int)(0.005 * formHeight));
+            }
         }
 
         private void createInputPanels(){
@@ -212,7 +185,6 @@ namespace Goblin
                 runPanel.Width = panelWidth;
                 runPanel.Height = (int)(panelHeight * 0.31);
                 runPanel.Top = algorithmPanel.Bottom + gap;
-
             };
         }
 
@@ -272,6 +244,7 @@ namespace Goblin
 
         #endregion
 
+        // attributes
         internal int formWidth;
         internal int formHeight;
         internal Panel panel_input;
