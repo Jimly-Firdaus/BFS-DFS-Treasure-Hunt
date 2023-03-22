@@ -9,15 +9,17 @@ namespace Goblin
     {
         // private string name;
         private List<char> route = new List<char>();
+        private int totalTreasureInfo;
         
-        public Goblin(int totalTreasure, char[,] maze) : base(totalTreasure, maze)
+        public Goblin(int totalTreasure, char[,] maze) : base(maze)
         {
+            this.totalTreasureInfo = totalTreasure;
             Console.WriteLine("Successfully summon a goblin!");
         }
 
         public void SolveWithBFS()
         {
-            this.route = base.BreadthFirstSearch();
+            this.route = base.BreadthFirstSearch(this.totalTreasureInfo);
         }
 
         public void SolveWithDFS()
@@ -27,7 +29,7 @@ namespace Goblin
 
         public void TSPwithBFS()
         {
-            this.route = base.TSPwithBFS();
+            this.route = base.TSPwithBFS(this.totalTreasureInfo);
         }
         
         public List<char> GetRoute()
