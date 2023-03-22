@@ -8,19 +8,24 @@
     "net6.0-windows7.0": []
   },
   "packageFolders": {
-    "C:\\Users\\Lenovo\\.nuget\\packages\\": {}
+    "C:\\Users\\Jeffrey Chow\\.nuget\\packages\\": {},
+    "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "D:\\Programming\\Stima\\Tubes 2 Stima\\Tubes2_Goblin\\src\\Goblin.csproj",
+      "projectUniqueName": "C:\\Users\\Jeffrey Chow\\Documents\\ITB\\4th Semester\\IF2211 Algorithm Strategies\\Tubes 2\\repository\\Tubes2_Goblin\\src\\Goblin.csproj",
       "projectName": "Goblin",
-      "projectPath": "D:\\Programming\\Stima\\Tubes 2 Stima\\Tubes2_Goblin\\src\\Goblin.csproj",
-      "packagesPath": "C:\\Users\\Lenovo\\.nuget\\packages\\",
-      "outputPath": "D:\\Programming\\Stima\\Tubes 2 Stima\\Tubes2_Goblin\\src\\obj\\",
+      "projectPath": "C:\\Users\\Jeffrey Chow\\Documents\\ITB\\4th Semester\\IF2211 Algorithm Strategies\\Tubes 2\\repository\\Tubes2_Goblin\\src\\Goblin.csproj",
+      "packagesPath": "C:\\Users\\Jeffrey Chow\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\Jeffrey Chow\\Documents\\ITB\\4th Semester\\IF2211 Algorithm Strategies\\Tubes 2\\repository\\Tubes2_Goblin\\src\\obj\\",
       "projectStyle": "PackageReference",
+      "fallbackFolders": [
+        "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
+      ],
       "configFilePaths": [
-        "C:\\Users\\Lenovo\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\Jeffrey Chow\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
