@@ -103,18 +103,20 @@
             formWidth = ClientRectangle.Size.Width;
             formHeight = ClientRectangle.Size.Height;
 
-            // update all panel
-            panel_input.Location = new Point((int)(0.05 * formWidth), (int)(0.2 * formHeight));
-            panel_input.Size = new Size((int)(0.225 * formWidth), (int)(0.75 * formHeight));
+            if (formWidth > 0 && formHeight > 0){
+                // update all panel
+                panel_input.Location = new Point((int)(0.05 * formWidth), (int)(0.2 * formHeight));
+                panel_input.Size = new Size((int)(0.225 * formWidth), (int)(0.75 * formHeight));
 
-            panel_output.Location = new Point((int)(0.315 * formWidth), (int)(0.2 * formHeight));
-            panel_output.Size = new Size((int)(0.675 * formWidth), (int)(0.75 * formHeight));
+                panel_output.Location = new Point((int)(0.315 * formWidth), (int)(0.2 * formHeight));
+                panel_output.Size = new Size((int)(0.675 * formWidth), (int)(0.75 * formHeight));
 
-            panel_title.Location = new Point((int)(0.05 * formWidth), (int)(0.05 * formHeight));
-            panel_title.Size = new Size((int)(0.9 * formWidth), (int)(0.1 * formHeight));
+                panel_title.Location = new Point((int)(0.05 * formWidth), (int)(0.05 * formHeight));
+                panel_title.Size = new Size((int)(0.9 * formWidth), (int)(0.1 * formHeight));
 
-            hr.Location = new Point((int)(0.05 * formWidth), (int)(0.175 * formHeight));
-            hr.Size = new Size((int)(0.9 * formWidth), (int)(0.005 * formHeight));
+                hr.Location = new Point((int)(0.05 * formWidth), (int)(0.175 * formHeight));
+                hr.Size = new Size((int)(0.9 * formWidth), (int)(0.005 * formHeight));
+            }
         }
 
         private void createInputPanels(){
