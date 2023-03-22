@@ -19,7 +19,9 @@ namespace Goblin
         // Constuctor
         public SolveMaze(char[,] maze)
         {
-            this.maze = maze;
+            this.maze = new char[maze.GetLength(0), maze.GetLength(1)];
+            Array.Copy(maze, this.maze, maze.Length);
+
             SetupMaze();
         }
 
