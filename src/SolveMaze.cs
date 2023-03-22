@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Drawing;
+using Microsoft.Win32.SafeHandles;
+using System.Data;
 
 namespace Goblin
 {
@@ -17,6 +19,8 @@ namespace Goblin
         private HashSet<List<(int row, int col)>> visitedNodes = new HashSet<List<(int row, int col)>>(); // Goblin's Visited Nodes
         private List<char> finalRoute = new List<char>();    // Goblin's final route to all treasures
         private List<Point> positionHistory = new List<Point>(); // Goblin's position history
+        private (int row, int col) latestPosition;
+        private Dictionary<(int, int), bool> vertice;
 
         // Constuctor
         public SolveMaze(int totalTreasure, char[,] maze)
@@ -360,26 +364,85 @@ namespace Goblin
             return resultingStartNode.GetUsedDirection();
         }
 
+        public List<char> DepthFirstSearch(string choice)
+        {
+            ResetGoblin();
+            vertice = new Dictionary<(int, int), bool>();
+            vertice = GetAllVertex();
+            // foreach (var kvp in vertice)
+            // {
+            //    Console.WriteLine("{0}: {1}", kvp.Key, kvp.Value);
+            // }
+            List<char> rute = new List<char>();
+            rute = DFS(this.position, 'T', "DFS");
+            if (choice == "TSP")
+            {
+                // Console.WriteLine(this.latestPosition.row.ToString() + " " +  this.latestPosition.col.ToString());
+                Console.WriteLine("Im back");
+                foreach (var kvp in vertice)
+                {
+                    Console.WriteLine("{0}: {1}", kvp.Key, kvp.Value);
+                }
+                List<char> backRute = new List<char>();
+                backRute = DFS(this.latestPosition, 'K', choice);
+                rute = rute.Concat(backRute).ToList();
+            }
+            return rute;
+        }
+
         /**
          * Path finding with depth first search
          * @returns array containing route to all treasures
          */
-        public List<char> DepthFirstSearch()
+        public List<char> DFS((int row, int col) startingPoint, char target, string choice)
         {
-            ResetGoblin();
-            Dictionary<(int, int), bool> vertex = new Dictionary<(int, int), bool>();
-            vertex = GetAllVertex();
+            this.position = startingPoint;
             Stack<(int, int)> stack = new Stack<(int, int)>();
             stack.Push(this.position);
+            Dictionary<(int, int), bool> vertex = new Dictionary<(int, int), bool>(vertice);
             List<char> rute = new List<char>();
             List<char> temp = new List<char>();
             Stack<char> lastMove = new Stack<char>();
             vertex[this.position] = true;
             this.visitedNodes.Add(new List<(int, int)>{ this.position });
             this.positionHistory.Add(new Point(this.position.col, this.position.row));
+            bool foundHome = false;
             while (!(stack.Count == 0))
             {
-                char direction = GetAvailableDirection(vertex);
+                if(choice == "TSP" && checkCanMove(vertex))
+                {
+                    vertex = GetAllVertex();
+                }
+                if(choice == "TSP" && CheckTarget('K')){
+                    foundHome = true;
+                }
+                char direction;
+                if(foundHome){
+                    direction = 'B';
+                }else{
+                    direction = GetAvailableDirection(vertex); 
+                }
+                Console.WriteLine(checkCanMove(vertex));
+                // if (choice == "TSP" && direction == 'U' && checkCanMove(vertex))
+                // {
+                //     Console.WriteLine("Go Up");
+                //     vertex[(this.position.row - 1, this.position.col)] = false;
+                // }
+                // else if(choice == "TSP" && direction == 'D' && checkCanMove(vertex))
+                // {
+                //     Console.WriteLine("Go Down");
+                //     vertex[(this.position.row + 1, this.position.col)] = false;
+                // }
+                // else if (choice == "TSP" && direction == 'L' && checkCanMove(vertex))
+                // {
+                //     Console.WriteLine("Go Left");
+                //     vertex[(this.position.row, this.position.col - 1)] = false;
+                // }
+                // else if (choice == "TSP" && direction == 'R' && checkCanMove(vertex))
+                // {
+                //     Console.WriteLine("Go Right");
+                //     vertex[(this.position.row, this.position.col + 1)] = false;
+                // }
                 if (direction == 'L')
                 {
                     this.position.col -= 1;
@@ -425,14 +488,85 @@ namespace Goblin
                 }
                 this.visitedNodes.Add(new List<(int, int)>{ this.position });
                 this.positionHistory.Add(new Point(this.position.col, this.position.row));
-                if (CheckTreasure() && !vertex[this.position])
+                if (CheckTarget(target) && !vertex[this.position])
                 {
                     rute = rute.Concat(temp).ToList();
+                    this.latestPosition = this.position;
+                    Console.WriteLine("Find...");
+                    syncHashMap(vertex);
                     temp.Clear();
                 }
+                Console.WriteLine("This is the position : ");
+                Console.WriteLine(this.position.row.ToString() + " " + this.position.col.ToString());
+                Console.WriteLine("This is the treasure latest position : ");
+                Console.WriteLine(this.latestPosition.row.ToString() + " " + this.latestPosition.col.ToString());
                 vertex[this.position] = true;
             }
             return rute;
+        }
+
+        private void syncHashMap(Dictionary<(int, int), bool> vertex)
+        {
+            List<(int, int)> keysToModify = new List<(int, int)>();
+            foreach (var key in vertex.Keys)
+            {
+                if (vertice.ContainsKey(key) && vertice[key] != vertex[key])
+                {
+                    keysToModify.Add(key);
+                }
+            }
+
+            for (int i = 0; i < keysToModify.Count; i++)
+            {
+                (int, int) key = keysToModify[i];
+                vertice[key] = vertex[key];
+            }
+        }
+
+        private bool checkCanMove(Dictionary<(int, int), bool> vertex)
+        {
+            int sumAllAvailableDirection = 0;
+            if(vertex.ContainsKey((this.position.row-1, this.position.col)))
+            {
+                sumAllAvailableDirection++;
+            }
+            if (vertex.ContainsKey((this.position.row + 1, this.position.col)))
+            {
+                sumAllAvailableDirection++;
+            }
+            if (vertex.ContainsKey((this.position.row, this.position.col-1)))
+            {
+                sumAllAvailableDirection++;
+            }
+            if (vertex.ContainsKey((this.position.row, this.position.col + 1)))
+            {
+                sumAllAvailableDirection++;
+            }
+            int sumAllUnavailableDirection = 0;
+            if( vertex.ContainsKey((this.position.row-1, this.position.col)) && vertex[(this.position.row - 1, this.position.col)])
+            {
+                sumAllUnavailableDirection++;
+            }
+            if (vertex.ContainsKey((this.position.row + 1, this.position.col)) && vertex[(this.position.row + 1, this.position.col)])
+            {
+                sumAllUnavailableDirection++;
+            }
+            if (vertex.ContainsKey((this.position.row, this.position.col-1)) && vertex[(this.position.row, this.position.col-1)])
+            {
+                sumAllUnavailableDirection++;
+            }
+            if (vertex.ContainsKey((this.position.row, this.position.col + 1)) && vertex[(this.position.row, this.position.col + 1)])
+            {
+                sumAllUnavailableDirection++;
+            }
+            if(sumAllAvailableDirection == sumAllUnavailableDirection)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
         }
 
         private Dictionary<(int, int), bool> GetAllVertex()
@@ -449,6 +583,30 @@ namespace Goblin
                 }
             }
             return vertex;
+        }
+
+        private char GetAvailableDirectionForTSP()
+        {
+            if (this.position.col - 1 >= 0 && this.maze[this.position.row, this.position.col - 1] != 'X')
+            {
+                return 'L';
+            }
+            else if (this.position.row - 1 >= 0 && this.maze[this.position.row - 1, this.position.col] != 'X')
+            {
+                return 'U';
+            }
+            else if (this.position.col + 1 < this.maze.GetLength(1) && this.maze[this.position.row, this.position.col + 1] != 'X')
+            {
+                return 'R';
+            }
+            else if (this.position.row + 1 < this.maze.GetLength(0) && this.maze[this.position.row + 1, this.position.col] != 'X')
+            {
+                return 'D';
+            }
+            else
+            {
+                return 'B';
+            }
         }
 
         private char GetAvailableDirection(Dictionary<(int, int), bool> vertex)
@@ -475,9 +633,9 @@ namespace Goblin
             }
         }
 
-        private bool CheckTreasure()
+        private bool CheckTarget(char target)
         {
-            if (this.maze[this.position.row, this.position.col] == 'T')
+            if (this.maze[this.position.row, this.position.col] == target)
             {
                 return true;
             }
