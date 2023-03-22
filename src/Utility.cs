@@ -55,7 +55,11 @@ namespace Goblin {
                     _panels[i,j].BackColor = getDefaultColor(_maze[i,j]);
                 }
             }
+        }
 
+        public Color setColorOpacity(Color color, int opacity)
+        {
+            return Color.FromArgb(opacity, color.R, color.G, color.B);
         }
     }
 }
