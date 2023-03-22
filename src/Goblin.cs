@@ -25,10 +25,10 @@ namespace Goblin
             this.route = base.DepthFirstSearch();
         }
 
-        public void TSPwithBFS()
-        {
-            this.route = base.TSPwithBFS();
-        }
+        // public void TSPwithBFS()
+        // {
+        //     this.route = base.TSPwithBFS();
+        // }
         
         public List<char> GetRoute()
         {
