@@ -5,12 +5,15 @@ namespace Goblin {
     partial class GoblinForm {
         private List<Color> _defColors = new List<Color> { Color.Brown, Color.White, Color.Black, Color.Gold };
 
-        public bool validateTextFile(string filename)
+        public bool validateTextFile(string filename) 
         {
+            // initialized allowedCharacters
             string allowedChars = "XTRK";
 
+            // Read the file
             string[] lines = File.ReadAllLines(filename);
 
+            // iterate through each char
             foreach (string line in lines)
             {
                 string line2 = line.Replace(" ","");
@@ -25,91 +28,6 @@ namespace Goblin {
             }
 
             return true;
-        }
-
-        private void setButtonEnable(bool enable){
-            openFileBtn.Enabled = enable;
-            groupBox1.Enabled = enable;
-            choiceBFS.Enabled = enable;
-            choiceDFS.Enabled = enable;
-            tspCheckBox.Enabled = enable;
-            runBtn.Enabled = enable;
-            showStep.Enabled = enable;
-            showRoute.Enabled = enable;
-            resetBtn.Enabled = enable;
-        }
-
-        private async Task updateColorFromStep()
-        {
-            Color tempColor = Color.Transparent;
-            Point prevPoint = new Point(-1, -1);
-
-            foreach (Point point in _steps)
-            {
-                await Task.Delay(_delay);
-
-                if (tempColor != Color.Transparent)
-                {
-                    setPanelColor(ref _panels[prevPoint.Y, prevPoint.X], tempColor);
-                    setPathColor(ref _panels[prevPoint.Y, prevPoint.X]);
-                }
-
-                tempColor = _panels[point.Y, point.X].BackColor;
-                prevPoint = new Point(point.X, point.Y);
-                setVisitColor(ref _panels[point.Y, point.X]);
-            }
-
-            setPanelColor(ref _panels[prevPoint.Y, prevPoint.X], tempColor);
-            setPathColor(ref _panels[prevPoint.Y, prevPoint.X]);
-        }
-
-        private async Task updateColorFromRoute()
-        {
-            await Task.Delay(_delay);
-            Point toChange = _krustyKrab;
-
-            Color temp = _panels[toChange.Y, toChange.X].BackColor;
-
-            // change the krusty krab color
-            setVisitColor(ref _panels[toChange.Y, toChange.X]);
-
-            foreach (char route in _route)
-            {
-
-                await Task.Delay(_delay);
-                setPanelColor(ref _panels[toChange.Y, toChange.X], temp);
-                setPathColor(ref _panels[toChange.Y, toChange.X]);
-
-                movePoint(ref toChange, route);
-
-                temp = _panels[toChange.Y, toChange.X].BackColor;
-                setVisitColor(ref _panels[toChange.Y, toChange.X]);
-            }
-
-            setPanelColor(ref _panels[toChange.Y, toChange.X], temp);
-            setPathColor(ref _panels[toChange.Y, toChange.X]);
-        }
-
-        private void movePoint(ref Point point, char direction)
-        {
-            switch (direction)
-            {
-                case 'L':
-                    point.X -= 1; // move left
-                    break;
-                case 'R':
-                    point.X += 1; // move right
-                    break;
-                case 'U':
-                    point.Y -= 1; // move up
-                    break;
-                case 'D':
-                    point.Y += 1; // move down
-                    break;
-                default:
-                    // invalid direction, do nothing
-                    break;
-            }
         }
         private void readFile(string filename)
         {
@@ -140,6 +58,105 @@ namespace Goblin {
                     _maze[i, j] = row[j];
                 }
             }
+        }
+
+        private void setButtonEnable(bool enable){
+            openFileBtn.Enabled = enable;
+            groupBox1.Enabled = enable;
+            choiceBFS.Enabled = enable;
+            choiceDFS.Enabled = enable;
+            tspCheckBox.Enabled = enable;
+            runBtn.Enabled = enable;
+            showStep.Enabled = enable;
+            showRoute.Enabled = enable;
+            resetBtn.Enabled = enable;
+        }
+
+        private async Task updateColorFromRoute()
+        {
+            // Delay first
+            await Task.Delay(_delay);
+
+            // set initial point to change
+            Point toChange = _krustyKrab;
+
+            // save current color
+            Color temp = _panels[toChange.Y, toChange.X].BackColor;
+
+            // change the krusty krab color
+            setVisitColor(ref _panels[toChange.Y, toChange.X]);
+
+            foreach (char route in _route)
+            {
+                // Delay again
+                await Task.Delay(_delay);
+
+                // set back previously visited panel color
+                setPanelColor(ref _panels[toChange.Y, toChange.X], temp);
+
+                // update previously visited panel color
+                setPathColor(ref _panels[toChange.Y, toChange.X]);
+
+                // move point based on route
+                movePoint(ref toChange, route);
+
+                // update the temp
+                temp = _panels[toChange.Y, toChange.X].BackColor;
+
+                // set current visited panel color
+                setVisitColor(ref _panels[toChange.Y, toChange.X]);
+            }
+            // set back previously visited color and update it
+            setPanelColor(ref _panels[toChange.Y, toChange.X], temp);
+            setPathColor(ref _panels[toChange.Y, toChange.X]);
+        }
+
+        private void movePoint(ref Point point, char direction)
+        {
+            switch (direction)
+            {
+                case 'L':
+                    point.X -= 1; // move left
+                    break;
+                case 'R':
+                    point.X += 1; // move right
+                    break;
+                case 'U':
+                    point.Y -= 1; // move up
+                    break;
+                case 'D':
+                    point.Y += 1; // move down
+                    break;
+                default:
+                    // invalid direction, do nothing
+                    break;
+            }
+        }
+
+        private async Task updateColorFromStep()
+        {
+            // initialize value
+            Color tempColor = Color.Transparent;
+            Point prevPoint = new Point(-1, -1);
+
+            // update color for each point in _steps
+            foreach (Point point in _steps)
+            {
+                await Task.Delay(_delay);
+
+                if (tempColor != Color.Transparent)
+                {
+                    setPanelColor(ref _panels[prevPoint.Y, prevPoint.X], tempColor);
+                    setPathColor(ref _panels[prevPoint.Y, prevPoint.X]);
+                }
+
+                tempColor = _panels[point.Y, point.X].BackColor;
+                prevPoint = new Point(point.X, point.Y);
+                setVisitColor(ref _panels[point.Y, point.X]);
+            }
+
+            setPanelColor(ref _panels[prevPoint.Y, prevPoint.X], tempColor);
+            setPathColor(ref _panels[prevPoint.Y, prevPoint.X]);
         }
 
         private void createMazePanel(int i, int j, char type)
@@ -197,7 +214,6 @@ namespace Goblin {
             };
         }
 
-
         private void setBackgroundImage(ref Panel panel, char type){
             string imgPath = "";
             if (type == 'K'){
@@ -245,6 +261,7 @@ namespace Goblin {
         }
 
         public void setPathColor(ref Panel panel){
+            // if color is not default color
             if (!_defColors.Contains(panel.BackColor)){
                 Color darkerColor = Color.FromArgb(
                     (int)(panel.BackColor.R * 0.95 / 2),
@@ -252,9 +269,8 @@ namespace Goblin {
                     (int)(panel.BackColor.B * 0.95 / 2)
                 );
                 panel.BackColor =  darkerColor;
-            } else {
+            } else { // if color is default color, set it to LightGreen
                 panel.BackColor = Color.LightGreen;
-                // panel.BackColor = Color.FromArgb	(189,168,0);
             }
         }
 
@@ -267,11 +283,6 @@ namespace Goblin {
                     _panels[i,j].BackColor = getDefaultColor(_maze[i,j]);
                 }
             }
-        }
-
-        public Color setColorOpacity(Color color, int opacity)
-        {
-            return Color.FromArgb(opacity, color.R, color.G, color.B);
         }
     }
 }
