@@ -51,7 +51,7 @@ namespace Goblin
             InitializeComponent();
             
             // always on full screen mode
-            //this.WindowState = FormWindowState.Maximized;
+            
             // filepath will be get from filedialogbox
             handleTitlePanel();
             handleInputPanel();
@@ -105,9 +105,11 @@ namespace Goblin
             int deltaI = (int)((panelMazeContainer.Height - _panels.GetLength(0) * panelSize)/2);
             panel.Location = new Point((j * panelSize ) + deltaJ, (i * panelSize) + deltaI);
             panel.Size = new Size(panelSize, panelSize);
-            // panel.BackgroundImage = Image.FromFile("C:\\Users\\Jeffrey Chow\\Documents\\ITB\\4th Semester\\IF2211 Algorithm Strategies\\Tubes 2\\repository\\spongebob.png");
-            // panel.BackgroundImageLayout = ImageLayout.Stretch;
-            
+            // string imagePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "assets", "krusty_crab.png");
+            // panel.BackgroundImage = Image.FromFile(imagePath);
+            //  panel.BackgroundImage = Image.FromFile("assets/krusty_crab.png");
+    
+            panel.BackgroundImageLayout = ImageLayout.Stretch;
 
             panel.BackColor = getDefaultColor(type);
 
