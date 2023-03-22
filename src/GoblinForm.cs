@@ -34,6 +34,20 @@ namespace Goblin
         internal Button showRoute;
         internal Button resetBtn;
 
+        public GoblinForm()
+        {
+            // reset all attributes
+            resetAllAttribute();
+
+            // initialize main components : panels
+            InitializeComponent();
+
+            // initialize sub components : sub-panels
+            handleTitlePanel();
+            handleInputPanel();
+            handleOutputPanel();
+        }
+
         public void resetAllAttribute(){
             // Release resources used by _panels
             if (_panels != null)
@@ -57,20 +71,6 @@ namespace Goblin
             _route = null;
             _steps = null;
             _treasureCount = 0;
-        }
-
-        public GoblinForm()
-        {
-            // reset all attributes
-            resetAllAttribute();
-
-            // initialize main components : panels
-            InitializeComponent();
-
-            // initialize sub components : sub-panels
-            handleTitlePanel();
-            handleInputPanel();
-            handleOutputPanel();
         }
 
         private void handleInputPanel()
@@ -265,6 +265,7 @@ namespace Goblin
                 // instantiate goblin object for dfs and bfs
                 Goblin goblin = new Goblin(_treasureCount, _maze);
 
+                // Select algorithm choice
                 if (choiceBFS.Checked && tspCheckBox.Checked){
                     watch.Start();
                     // run tspForBFS
@@ -369,6 +370,7 @@ namespace Goblin
 
             inputPanel.SizeChanged += (sender, e) =>
             {
+                // update font size and label size
                 inputFontSize = (float)(inputPanel.Height * 0.25);
                 inputLabel.Font = new Font(inputLabel.Font.FontFamily, inputFontSize, FontStyle.Bold);
                 inputLabel.Size = inputPanel.Size;
@@ -376,6 +378,7 @@ namespace Goblin
 
             filePanel.SizeChanged += (sender, e) =>
             {
+                // update font size and label size and position
                 fileFontSize = (float)(filePanel.Height * 0.075);
                 filenameLabel.Font = new Font(filenameLabel.Font.FontFamily, fileFontSize, FontStyle.Bold);
                 filenameLabel.Size = new Size(filePanel.Width, (int)(filePanel.Height * 0.25));
@@ -384,18 +387,22 @@ namespace Goblin
                 filenameTextLabel.Size = new Size(filePanel.Width, (int)(filePanel.Height * 0.4));
                 filenameTextLabel.Location = new Point(0, (int)(filePanel.Height * 0.25));
 
+                // update openFileButton location and size
                 openFileBtn.Location = new Point(0, (int)(filePanel.Height * 0.65));
                 openFileBtn.Size = new Size((int)(0.95 * filePanel.Width), (int)(0.35 * filePanel.Height));
             };
 
             algorithmPanel.SizeChanged += (sender, e) => {
+                // update algorithmLabel fontwsize
                 float algoFontSize = (float)(algorithmPanel.Height * 0.075);
                 algorithmLabel.Font = new Font(algorithmLabel.Font.FontFamily, algoFontSize, FontStyle.Bold);
                 algorithmLabel.Size = new Size(algorithmPanel.Width, (int)(algorithmPanel.Height * 0.2));
 
+                // update groupBox location and size
                 groupBox1.Location = new Point(0, (int)(algorithmPanel.Height * 0.3));
                 groupBox1.Size = new Size((int)(algorithmPanel.Width * 0.5), (int)(0.7 * algorithmPanel.Height));
 
+                // update choices font size and location
                 choiceBFS.Font = new Font(groupBox1.Font.FontFamily, (float)(groupBox1.Height * 0.08));
                 choiceBFS.Size = new Size(groupBox1.Width, (int)(0.4 * groupBox1.Height));
                 choiceBFS.Location = new Point(0, (int)(groupBox1.Height * 0.05));
@@ -404,6 +411,7 @@ namespace Goblin
                 choiceDFS.Size = new Size(groupBox1.Width, (int)(0.4 * groupBox1.Height));
                 choiceDFS.Location = new Point(0, (int)(groupBox1.Height * 0.5));
 
+                // update checkbox location and font size
                 tspCheckBox.Location = new Point((int)(algorithmPanel.Width * 0.5), (int)(algorithmPanel.Height * 0.3));
                 tspCheckBox.Size = new Size((int)(algorithmPanel.Width * 0.4), (int)(algorithmPanel.Height * 0.35));
                 tspCheckBox.Font = new Font(algorithmPanel.Font.FontFamily, (float)(algorithmPanel.Height * 0.055));
@@ -438,7 +446,6 @@ namespace Goblin
                 showStep.Location = new Point((int)(0.5 * runPanel.Width), (int)(0.65 * runPanel.Height));
                 showStep.Size = new Size((int) (0.45 * runPanel.Width),(int)(0.35 * runPanel.Height));
             };
-
         }
 
         private void handleOutputPanel()
@@ -452,13 +459,6 @@ namespace Goblin
             outputLabel.Size = panelOutputTitle.Size;
             outputLabel.Location = new Point(0,0);
             panelOutputTitle.Controls.Add(outputLabel);
-
-            panelOutputTitle.Resize += (sender, e) =>
-            {
-                float outputFontSize = (float)(panelOutputTitle.Height * 0.25);
-                outputLabel.Font = new Font(outputLabel.Font.FontFamily, outputFontSize, FontStyle.Bold);
-                outputLabel.Size = panelOutputTitle.Size;
-            };
 
             /* HANDLE PANEL INFO CONTAINER*/
             int labelHeight = panelInfoContainer.ClientSize.Height / 2;
@@ -583,6 +583,14 @@ namespace Goblin
             panelInfoContainer.Controls.Add(pathLabel);
 
             // Responsive
+            panelOutputTitle.Resize += (sender, e) =>
+            {
+                // update font size
+                float outputFontSize = (float)(panelOutputTitle.Height * 0.25);
+                outputLabel.Font = new Font(outputLabel.Font.FontFamily, outputFontSize, FontStyle.Bold);
+                outputLabel.Size = panelOutputTitle.Size;
+            };
+
             panelInfoContainer.Resize += (sender, e) =>
             {
                 int labelHeight = panelInfoContainer.ClientSize.Height / 2;
