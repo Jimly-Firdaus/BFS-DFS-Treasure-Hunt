@@ -112,6 +112,7 @@ namespace Goblin
             panel.BackgroundImageLayout = ImageLayout.Stretch;
 
             panel.BackColor = getDefaultColor(type);
+            setBackgroundImage(ref panel,type);
 
             if (type == 'K'){
                 _krustyKrab = new Point(i,j);
@@ -246,6 +247,8 @@ namespace Goblin
             Button showRoute = new Button();
             Button showStep = new Button();
 
+            bool runned = false;
+
             // Label "Input"
             inputLabel.Text = "Input";
             float inputFontSize = (float)(inputPanel.Height * 0.25);
@@ -291,6 +294,7 @@ namespace Goblin
                     filenameTextLabel.Text = Path.GetFileName(_filename);
                     showRoute.Enabled = false;
                     showStep.Enabled = false;
+                    runned = false;
                 }
             });
             filePanel.Controls.Add(openFileBtn);
@@ -365,7 +369,7 @@ namespace Goblin
             openFileBtn.Click +=  runBtnEnabledCheck;
 
             // Run Button
-            bool runned = false;
+            
             runBtn.Text = "Run";
             runBtn.Location = new Point(0, (int)(runPanel.Height * 0.25));
             runBtn.Size = new Size((int) (0.6 * runPanel.Width),(int)(0.35 * runPanel.Height));
