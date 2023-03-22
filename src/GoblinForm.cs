@@ -105,9 +105,6 @@ namespace Goblin
             int deltaI = (int)((panelMazeContainer.Height - _panels.GetLength(0) * panelSize)/2);
             panel.Location = new Point((j * panelSize ) + deltaJ, (i * panelSize) + deltaI);
             panel.Size = new Size(panelSize, panelSize);
-            // string imagePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "assets", "krusty_crab.png");
-            // panel.BackgroundImage = Image.FromFile(imagePath);
-            //  panel.BackgroundImage = Image.FromFile("assets/krusty_crab.png");
     
             panel.BackgroundImageLayout = ImageLayout.Stretch;
 
@@ -121,16 +118,6 @@ namespace Goblin
             if (type == 'T'){
                 _treasureCount++;
             }
-
-            // create label to display type
-            Label label = new Label();
-            label.Text = type.ToString();
-            label.AutoSize = true;
-            label.Location = new Point(5, 5);
-            label.BackColor = Color.Transparent;
-
-            // add label to panel
-            panel.Controls.Add(label);
 
             // panel Border
             panel.BorderStyle = BorderStyle.FixedSingle;
