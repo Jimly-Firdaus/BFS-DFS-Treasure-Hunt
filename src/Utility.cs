@@ -17,7 +17,6 @@ namespace Goblin {
                 
                 foreach (char c in line2)
                 {
-                    Debug.WriteLine(c);
                     if (!allowedChars.Contains(c))
                     {
                         return false;
@@ -26,6 +25,18 @@ namespace Goblin {
             }
 
             return true;
+        }
+
+        private void setButtonEnable(bool enable){
+            openFileBtn.Enabled = enable;
+            groupBox1.Enabled = enable;
+            choiceBFS.Enabled = enable;
+            choiceDFS.Enabled = enable;
+            tspCheckBox.Enabled = enable;
+            runBtn.Enabled = enable;
+            showStep.Enabled = enable;
+            showRoute.Enabled = enable;
+            resetBtn.Enabled = enable;
         }
 
         private async Task updateColorFromStep()
