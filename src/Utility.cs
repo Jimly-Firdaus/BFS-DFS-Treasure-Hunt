@@ -1,8 +1,33 @@
+using System.Diagnostics;
 namespace Goblin {
 
 
     partial class GoblinForm {
         private List<Color> _defColors = new List<Color> { Color.Brown, Color.White, Color.Black, Color.Gold };
+
+        public bool validateTextFile(string filename)
+        {
+            string allowedChars = "XTRK";
+
+            string[] lines = File.ReadAllLines(filename);
+
+            foreach (string line in lines)
+            {
+                string line2 = line.Replace(" ","");
+                
+                foreach (char c in line2)
+                {
+                    Debug.WriteLine(c);
+                    if (!allowedChars.Contains(c))
+                    {
+                        return false;
+                    }
+                }
+            }
+
+            return true;
+        }
+
 
         private void setBackgroundImage(ref Panel panel, char type){
             string imgPath = "";
