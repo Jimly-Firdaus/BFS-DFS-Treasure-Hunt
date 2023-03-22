@@ -10,7 +10,7 @@ namespace Goblin
         internal Panel[,] _panels;
         internal char[,] _maze;
         private Point _krustyKrab;
-        private List<string> _route;
+        private List<char> _route;
         private List<Point> _steps;
         private string _filename;
         private int _treasureCount = 0;
@@ -243,7 +243,7 @@ namespace Goblin
                 if (choiceBFS.Checked)
                 {
                     watch.Start();  
-                    goblin.SolveWithBFS();
+                    goblin.TSPwithBFS();
                     watch.Stop();                         
                 }
 
@@ -265,7 +265,7 @@ namespace Goblin
 
                 // update pathLabel
                 String routePath = "";
-                foreach (string route in _route)
+                foreach (char route in _route)
                 {
                     routePath += route.ToString();
                 }

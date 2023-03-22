@@ -62,7 +62,7 @@ namespace Goblin {
             // change the krusty krab color
             setVisitColor(ref _panels[toChange.Y, toChange.X]);
 
-            foreach (string route in _route)
+            foreach (char route in _route)
             {
 
                 await Task.Delay(_delay);
@@ -79,20 +79,20 @@ namespace Goblin {
             setPathColor(ref _panels[toChange.Y, toChange.X]);
         }
 
-        private void movePoint(ref Point point, string direction)
+        private void movePoint(ref Point point, char direction)
         {
             switch (direction)
             {
-                case "L":
+                case 'L':
                     point.X -= 1; // move left
                     break;
-                case "R":
+                case 'R':
                     point.X += 1; // move right
                     break;
-                case "U":
+                case 'U':
                     point.Y -= 1; // move up
                     break;
-                case "D":
+                case 'D':
                     point.Y += 1; // move down
                     break;
                 default:
