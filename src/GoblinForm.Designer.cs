@@ -24,12 +24,35 @@ namespace Goblin
 
         #region Windows Form Designer generated code
 
+        // private async void SetBackgroundImageAsync(string imagePath)
+        // {
+        //     var image = await Task.Run(() => Image.FromFile(imagePath));
+        //     if (image != null)
+        //     {
+        //         this.BackgroundImage = image;
+        //     }
+        // }
+
         /// <summary>
         ///  Required method for Designer support - do not modify
         ///  the contents of this method with the code editor.
         /// </summary>
         private void InitializeComponent()
         {
+            // this.BackgroundImage = Image.FromFile("C:\\Users\\Jeffrey Chow\\Documents\\ITB\\4th Semester\\IF2211 Algorithm Strategies\\Tubes 2\\repository\\background.jpg");
+            // this.BackgroundImageLayout = ImageLayout.None;
+
+            // SetBackgroundImageAsync("C:\\Users\\Jeffrey Chow\\Documents\\ITB\\4th Semester\\IF2211 Algorithm Strategies\\Tubes 2\\repository\\background.jpg");
+
+            // Panel panel1 = new Panel();
+            // panel1.Dock = DockStyle.Fill;
+            // this.Controls.Add(panel1);
+
+            // PictureBox pictureBox1 = new PictureBox();
+            // pictureBox1.Dock = DockStyle.Fill;
+            // pictureBox1.Image = Image.FromFile("C:\\Users\\Jeffrey Chow\\Documents\\ITB\\4th Semester\\IF2211 Algorithm Strategies\\Tubes 2\\repository\\background.jpg");
+            // panel1.Controls.Add(pictureBox1);
+            
             panel_input = new Panel();
             panel_output = new Panel();
             panel_title = new Panel();
@@ -38,12 +61,12 @@ namespace Goblin
             // Form dimensions
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(940, 414);
+            // ClientSize = new Size(940, 414);
+            this.WindowState = FormWindowState.Maximized;
+            // ClientSize = new Size(Screen.PrimaryScreen.Bounds.Width, Screen.PrimaryScreen.Bounds.Height);
 
             formWidth = ClientRectangle.Size.Width;
             formHeight = ClientRectangle.Size.Height;
-            Debug.WriteLine(formWidth);
-            Debug.WriteLine(formHeight);
 
             // 
             // panel_input
@@ -53,6 +76,7 @@ namespace Goblin
             panel_input.Name = "panel_input";
             panel_input.Size = new Size((int)(0.225 * formWidth), (int)(0.75 * formHeight));
             panel_input.TabIndex = 0;
+            panel_input.BackColor = setColorOpacity(Color.White, 200);
             // 
             // panel_output
             // 
@@ -61,6 +85,7 @@ namespace Goblin
             panel_output.Name = "panel_output";
             panel_output.Size = new Size((int)(0.675 * formWidth), (int)(0.75 * formHeight));
             panel_output.TabIndex = 1;
+            panel_output.BackColor = setColorOpacity(Color.White,200);
             // 
             // panel_title
             // 
@@ -68,6 +93,7 @@ namespace Goblin
             panel_title.Name = "panel_title";
             panel_title.Size = new Size((int)(0.9 * formWidth), (int)(0.1 * formHeight));
             panel_title.TabIndex = 2;
+            panel_title.BackColor = Color.Transparent;
             // 
             // GoblinForm
             // 
@@ -120,6 +146,7 @@ namespace Goblin
             inputPanel.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
             inputPanel.Height = (int)(panelHeight * 0.1);
             inputPanel.Width = panelWidth;
+            inputPanel.BackColor = Color.Transparent;
 
             // File Panel
             filePanel = new Panel();
@@ -127,6 +154,7 @@ namespace Goblin
             filePanel.Height = (int)(panelHeight * 0.25);
             filePanel.Width = panelWidth;
             filePanel.Top = inputPanel.Bottom + gap; // add gap
+            filePanel.BackColor = Color.Transparent;
 
             // Algorithm Panel
             algorithmPanel = new Panel();
@@ -134,6 +162,7 @@ namespace Goblin
             algorithmPanel.Height = (int)(panelHeight * 0.25);
             algorithmPanel.Width = panelWidth;
             algorithmPanel.Top = filePanel.Bottom + gap; // add gap
+            algorithmPanel.BackColor = Color.Transparent;
 
             // Run Panel
             runPanel = new Panel();
@@ -141,6 +170,7 @@ namespace Goblin
             runPanel.Height = (int)(panelHeight * 0.31);
             runPanel.Width = panelWidth;
             runPanel.Top = algorithmPanel.Bottom + gap; // add gap
+            runPanel.BackColor = Color.Transparent;
 
             panel_input.Controls.Add(inputPanel);
             panel_input.Controls.Add(filePanel);
@@ -185,6 +215,7 @@ namespace Goblin
             panelOutputTitle.Width = parentWidth;
             panelOutputTitle.Height = (int)(parentHeight * 0.1);
             panelOutputTitle.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
+            panelOutputTitle.BackColor = Color.Transparent;
 
             // Create Panel Maze Container
             panelMazeContainer = new Panel();
@@ -192,6 +223,7 @@ namespace Goblin
             panelMazeContainer.Height = (int)(parentHeight * 0.75);
             panelMazeContainer.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
             panelMazeContainer.Top = panelOutputTitle.Bottom;
+            panelMazeContainer.BackColor = Color.Transparent;
 
             // Create Panel Info Container
             panelInfoContainer = new Panel();
@@ -200,6 +232,7 @@ namespace Goblin
             panelInfoContainer.Anchor = AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
             panelInfoContainer.Top = panelMazeContainer.Bottom;
             panelInfoContainer.AutoScroll = true;
+            panelInfoContainer.BackColor = Color.Transparent;
 
             panel_output.Controls.Add(panelOutputTitle);
             panel_output.Controls.Add(panelMazeContainer);
