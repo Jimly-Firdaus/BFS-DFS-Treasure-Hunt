@@ -4,6 +4,24 @@ namespace Goblin {
     partial class GoblinForm {
         private List<Color> _defColors = new List<Color> { Color.Brown, Color.White, Color.Black, Color.Gold };
 
+        private void setBackgroundImage(ref Panel panel, char type){
+            string imgPath = "";
+            if (type == 'K'){
+                imgPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "..", "..", "..", "assets", "krusty_crab.png");
+            }
+            if (type == 'T'){
+                imgPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "..", "..", "..", "assets", "treasure.png");
+            }
+            if (type == 'R'){
+                imgPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "..", "..", "..", "assets", "grass.png");
+            }
+            if (type == 'X'){
+                imgPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "..", "..", "..", "assets", "stone.jpg");
+            }
+            panel.BackgroundImage = Image.FromFile(imgPath);
+            panel.BackgroundImageLayout = ImageLayout.Stretch;
+        }
+
         private Color getDefaultColor(char type){
             if (type == 'K')
             { 
