@@ -112,7 +112,7 @@ namespace Goblin
             setBackgroundImage(ref panel,type);
 
             if (type == 'K'){
-                _krustyKrab = new Point(i,j);
+                _krustyKrab = new Point(j,i);
             }
 
             if (type == 'T'){
@@ -276,12 +276,20 @@ namespace Goblin
                 if (dialog.ShowDialog() == DialogResult.OK)
                 {
                     resetAllAttribute();
-                    _filename = dialog.FileName;
-                    readFile(_filename);
-                    filenameTextLabel.Text = Path.GetFileName(_filename);
-                    showRoute.Enabled = false;
-                    showStep.Enabled = false;
-                    runned = false;
+
+                    // validate filename first
+                    bool validate = validateTextFile(dialog.FileName);
+
+                    if (validate){
+                        _filename = dialog.FileName;
+                        readFile(_filename);
+                        filenameTextLabel.Text = Path.GetFileName(_filename);
+                        showRoute.Enabled = false;
+                        showStep.Enabled = false;
+                        runned = false;
+                    } else {
+                        filenameTextLabel.Text = "File is not valid";
+                    }
                 }
             });
             filePanel.Controls.Add(openFileBtn);
