@@ -52,10 +52,12 @@ namespace Goblin
             // pictureBox1.Dock = DockStyle.Fill;
             // pictureBox1.Image = Image.FromFile("C:\\Users\\Jeffrey Chow\\Documents\\ITB\\4th Semester\\IF2211 Algorithm Strategies\\Tubes 2\\repository\\background.jpg");
             // panel1.Controls.Add(pictureBox1);
+            this.BackColor = Color.Azure;
             
             panel_input = new Panel();
             panel_output = new Panel();
             panel_title = new Panel();
+            hr = new PictureBox();
             SuspendLayout();
 
             // Form dimensions
@@ -72,20 +74,18 @@ namespace Goblin
             // panel_input
             // 
             panel_input.Location = new Point((int)(0.05 * formWidth), (int)(0.2 * formHeight));
-            panel_input.Margin = new Padding(2, 1, 2, 1);
+            // panel_input.Margin = new Padding(2, 1, 2, 1);
             panel_input.Name = "panel_input";
             panel_input.Size = new Size((int)(0.225 * formWidth), (int)(0.75 * formHeight));
             panel_input.TabIndex = 0;
-            panel_input.BackColor = setColorOpacity(Color.White, 200);
             // 
             // panel_output
             // 
-            panel_output.Location = new Point((int)(0.275 * formWidth), (int)(0.2 * formHeight));
-            panel_output.Margin = new Padding(2, 1, 2, 1);
+            panel_output.Location = new Point((int)(0.315 * formWidth), (int)(0.2 * formHeight));
+            // panel_output.Margin = new Padding(2, 1, 2, 1);
             panel_output.Name = "panel_output";
             panel_output.Size = new Size((int)(0.675 * formWidth), (int)(0.75 * formHeight));
             panel_output.TabIndex = 1;
-            panel_output.BackColor = setColorOpacity(Color.White,200);
             // 
             // panel_title
             // 
@@ -94,6 +94,14 @@ namespace Goblin
             panel_title.Size = new Size((int)(0.9 * formWidth), (int)(0.1 * formHeight));
             panel_title.TabIndex = 2;
             panel_title.BackColor = Color.Transparent;
+
+            // line separator
+            
+            hr.BackColor = Color.SkyBlue;
+            hr.Location = new Point((int)(0.05 * formWidth), (int)(0.175 * formHeight));
+            hr.Size = new Size((int)(0.9 * formWidth), (int)(0.005 * formHeight));
+            this.Controls.Add(hr);
+            
             // 
             // GoblinForm
             // 
@@ -128,11 +136,14 @@ namespace Goblin
             panel_input.Location = new Point((int)(0.05 * formWidth), (int)(0.2 * formHeight));
             panel_input.Size = new Size((int)(0.225 * formWidth), (int)(0.75 * formHeight));
 
-            panel_output.Location = new Point((int)(0.275 * formWidth), (int)(0.2 * formHeight));
+            panel_output.Location = new Point((int)(0.315 * formWidth), (int)(0.2 * formHeight));
             panel_output.Size = new Size((int)(0.675 * formWidth), (int)(0.75 * formHeight));
 
             panel_title.Location = new Point((int)(0.05 * formWidth), (int)(0.05 * formHeight));
             panel_title.Size = new Size((int)(0.9 * formWidth), (int)(0.1 * formHeight));
+
+            hr.Location = new Point((int)(0.05 * formWidth), (int)(0.175 * formHeight));
+            hr.Size = new Size((int)(0.9 * formWidth), (int)(0.005 * formHeight));
         }
 
         private void createInputPanels(){
@@ -273,5 +284,6 @@ namespace Goblin
         internal Panel algorithmPanel;
         internal Panel runPanel;
         private Panel panel_title;
+        private PictureBox hr;
     }
 }
