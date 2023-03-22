@@ -7,6 +7,7 @@ namespace Goblin
 {
     public partial class GoblinForm : Form
     {
+        // attributes
         internal Panel[,] _panels;
         internal char[,] _maze;
         private Point _krustyKrab;
@@ -15,7 +16,8 @@ namespace Goblin
         private string _filename;
         private int _treasureCount = 0;
         private int _delay = 200;
-        // Label
+
+        // Labels
         private Label pathLabel;
         private Label nodeCount;
         private Label stepCount;
@@ -47,16 +49,16 @@ namespace Goblin
 
         public GoblinForm()
         {
+            // reset all attributes
             resetAllAttribute();
+
+            // initialize main components : panels
             InitializeComponent();
-            
-            // always on full screen mode
-            
-            // filepath will be get from filedialogbox
+
+            // initialize sub components : sub-panels
             handleTitlePanel();
             handleInputPanel();
             handleOutputPanel();
-
         }
 
         private void handleInputPanel()
@@ -82,7 +84,7 @@ namespace Goblin
 
             bool runned = false;
 
-            // Label "Input"
+            // Label Input
             inputLabel.Text = "Input";
             float inputFontSize = (float)(inputPanel.Height * 0.25);
             inputLabel.Font = new Font(inputLabel.Font.FontFamily, inputFontSize, FontStyle.Bold);
@@ -91,7 +93,7 @@ namespace Goblin
             inputLabel.Size = inputPanel.Size;
             inputPanel.Controls.Add(inputLabel);
 
-            // Label "Filename"
+            // Label File
             filenameLabel.Text = "File : ";
             filenameLabel.AutoSize = true;
             float fileFontSize = (float)(filePanel.Height * 0.075);
@@ -100,7 +102,7 @@ namespace Goblin
             filenameLabel.Location = new Point(0, 0);
             filePanel.Controls.Add(filenameLabel);
 
-            // Label "FilenameText"
+            // Label FilenameText
             filenameTextLabel.Text = "No files chosen";
             float filenameTextFontSize = (float)(filePanel.Height * 0.07);
             filenameTextLabel.Font = new Font(filenameTextLabel.Font.FontFamily, filenameTextFontSize);
@@ -121,9 +123,10 @@ namespace Goblin
                 dialog.Multiselect = false;
                 if (dialog.ShowDialog() == DialogResult.OK)
                 {
+                    // reset attributes before assigning to the new one
                     resetAllAttribute();
 
-                    // validate filename first
+                    // validate textfile
                     bool validate = validateTextFile(dialog.FileName);
 
                     if (validate){
@@ -133,7 +136,8 @@ namespace Goblin
                         showRoute.Enabled = false;
                         showStep.Enabled = false;
                         runned = false;
-                    } else {
+                    } else { 
+                        // show error message
                         filenameTextLabel.Text = "File is not valid";
                     }
                 }
@@ -210,7 +214,6 @@ namespace Goblin
             openFileBtn.Click +=  runBtnEnabledCheck;
 
             // Run Button
-            
             runBtn.Text = "Run";
             runBtn.Location = new Point(0, (int)(runPanel.Height * 0.25));
             runBtn.Size = new Size((int) (0.6 * runPanel.Width),(int)(0.35 * runPanel.Height));
