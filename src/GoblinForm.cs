@@ -2,6 +2,7 @@ using System.Drawing;
 using System.Diagnostics;
 using System.Threading;
 using System.Text;
+using System.IO;
 
 namespace Goblin
 {
@@ -105,8 +106,10 @@ namespace Goblin
             int deltaI = (int)((panelMazeContainer.Height - _panels.GetLength(0) * panelSize)/2);
             panel.Location = new Point((j * panelSize ) + deltaJ, (i * panelSize) + deltaI);
             panel.Size = new Size(panelSize, panelSize);
-            // panel.BackgroundImage = Image.FromFile("C:\\Users\\Jeffrey Chow\\Documents\\ITB\\4th Semester\\IF2211 Algorithm Strategies\\Tubes 2\\repository\\spongebob.png");
-            // panel.BackgroundImageLayout = ImageLayout.Stretch;
+            string imgPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "..", "..", "..", "assets", "krusty_crab.png");
+            Image myImage = Image.FromFile(imgPath);
+            panel.BackgroundImage = myImage;
+            panel.BackgroundImageLayout = ImageLayout.Stretch;
             
 
             panel.BackColor = getDefaultColor(type);
@@ -184,7 +187,7 @@ namespace Goblin
             // change the krusty krab color
             setVisitColor(ref _panels[toChange.Y, toChange.X]);
 
-            foreach (char route in routes)
+            foreach (char route in _route)
             {
 
                 await Task.Delay(_delay); 
