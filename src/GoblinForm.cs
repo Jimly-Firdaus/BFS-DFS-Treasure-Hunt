@@ -269,7 +269,7 @@ namespace Goblin
                 if (choiceBFS.Checked && tspCheckBox.Checked){
                     watch.Start();
                     // run tspForBFS
-                    Debug.WriteLine("TSP BFS");
+                    goblin.TSPwithBFS();
                     watch.Stop();
                 }
 
