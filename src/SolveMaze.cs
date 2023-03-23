@@ -17,8 +17,8 @@ namespace Goblin
         private bool[,] marker;                // Marker for teleport
         private HashSet<List<(int row, int col)>> visitedNodes = new HashSet<List<(int row, int col)>>(); // Goblin's Visited Nodes
         private List<Point> positionHistory = new List<Point>(); // Goblin's position history
-        private (int row, int col) latestPosition;
-        private Dictionary<(int, int), bool> vertice;
+        private (int row, int col) latestPosition; // latest treasure position for TSP (DFS approximation) purposes
+        private Dictionary<(int, int), bool> vertice; // latest treasure state for TSP (DFS approximation) purposes
 
         // Constuctor
         public SolveMaze(char[,] maze)
@@ -363,6 +363,11 @@ namespace Goblin
             return resultingStartNode.GetUsedDirection();
         }
 
+        /**
+         * Finding path to all treasure using DFS algorithm or TSP with DFS approximation
+         * @param choice <string> if TSP then it will return the TSP route path else it will return the DFS route path
+         * @return array containing route to all treasure or plus back to starting point route
+        */
         public List<char> DepthFirstSearch(string choice)
         {
             ResetGoblin();
@@ -381,7 +386,10 @@ namespace Goblin
 
         /**
          * Path finding with depth first search
-         * @returns array containing route to all treasures
+         * @param startingPoint <(int row, int col)> is the point that it actually start searching for target
+         * @param target<char> is the target that we searched for
+         * @param choice<string> is to identify it is pure DFS or TSP
+         * @returns array containing route to all target
          */
         public List<char> DFS((int row, int col) startingPoint, char target, string choice)
         {
@@ -469,6 +477,10 @@ namespace Goblin
             return rute;
         }
 
+        /**
+         * Synching two hash map, one from attribute and one from parameter
+         * @param vertex <Dictionary<(int, int), bool> is a hash map that we wanna synch with
+        */
         private void syncHashMap(Dictionary<(int, int), bool> vertex)
         {
             List<(int, int)> keysToModify = new List<(int, int)>();
@@ -487,6 +499,11 @@ namespace Goblin
             }
         }
 
+        /**
+         * Check if all the direction is able to go or not
+         * @param vertex <Dictionary<(int, int), bool> is the hash map that contain the information needed
+         * @return bool if true then goblin has no where to go, and vice versa
+         */
         private bool checkCanMove(Dictionary<(int, int), bool> vertex)
         {
             int sumAllAvailableDirection = 0;
@@ -533,6 +550,10 @@ namespace Goblin
             }
         }
 
+        /**
+         * Getting all the vertices and set the value to false (haven't been passed yet)
+         * @return Dictionary<(int, int), bool> with vertex coordinates as the key value and bool as the actual value
+         */
         private Dictionary<(int, int), bool> GetAllVertex()
         {
             Dictionary<(int, int), bool> vertex = new Dictionary<(int, int), bool>();
@@ -549,30 +570,11 @@ namespace Goblin
             return vertex;
         }
 
-        private char GetAvailableDirectionForTSP()
-        {
-            if (this.position.col - 1 >= 0 && this.maze[this.position.row, this.position.col - 1] != 'X')
-            {
-                return 'L';
-            }
-            else if (this.position.row - 1 >= 0 && this.maze[this.position.row - 1, this.position.col] != 'X')
-            {
-                return 'U';
-            }
-            else if (this.position.col + 1 < this.maze.GetLength(1) && this.maze[this.position.row, this.position.col + 1] != 'X')
-            {
-                return 'R';
-            }
-            else if (this.position.row + 1 < this.maze.GetLength(0) && this.maze[this.position.row + 1, this.position.col] != 'X')
-            {
-                return 'D';
-            }
-            else
-            {
-                return 'B';
-            }
-        }
-
+        /**
+         * Get all available direction to move
+         * @param vertex <Dictionary<(int, int), bool> is the information needed to know whether the vertices have been passed or not
+         * @return char which is available direction with priority left, up, right, down and backtrack
+         */
         private char GetAvailableDirection(Dictionary<(int, int), bool> vertex)
         {
             if (this.position.col - 1 >= 0 && this.maze[this.position.row, this.position.col - 1] != 'X' && !vertex[(this.position.row, this.position.col - 1)])
@@ -597,6 +599,10 @@ namespace Goblin
             }
         }
 
+        /**
+         * Checking is the node target or not
+         * @return bool true if yes and false if it is not
+         */
         private bool CheckTarget(char target)
         {
             if (this.maze[this.position.row, this.position.col] == target)
