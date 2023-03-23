@@ -22,9 +22,9 @@ namespace Goblin
             this.route = base.BreadthFirstSearch(this.totalTreasureInfo);
         }
 
-        public void SolveWithDFS()
+        public void SolveWithDFS(string choice = "")
         {
-            this.route = base.DepthFirstSearch();
+            this.route = base.DepthFirstSearch(choice);
         }
 
         public void TSPwithBFS()
