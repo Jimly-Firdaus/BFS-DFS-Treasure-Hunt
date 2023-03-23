@@ -155,7 +155,6 @@ namespace Goblin
                 {
                     // Move to other point based on last node
                     NullifyMarker(lastNodeData);
-                    Console.WriteLine("BACKTRACKING...");
                     List<char> temp = lastNode.GetUsedDirection();
                     List<char> backtrackedRoute = MiniBreadthFirstSearch(lastNode.GetPosition(), this.position);
                     List<char> fullRoute = temp.Concat(backtrackedRoute).ToList();
