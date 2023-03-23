@@ -369,20 +369,10 @@ namespace Goblin
             ResetGoblin();
             vertice = new Dictionary<(int, int), bool>();
             vertice = GetAllVertex();
-            // foreach (var kvp in vertice)
-            // {
-            //    Console.WriteLine("{0}: {1}", kvp.Key, kvp.Value);
-            // }
             List<char> rute = new List<char>();
             rute = DFS(this.position, 'T', "DFS");
             if (choice == "TSP")
             {
-                // Console.WriteLine(this.latestPosition.row.ToString() + " " +  this.latestPosition.col.ToString());
-                Console.WriteLine("Im back");
-                foreach (var kvp in vertice)
-                {
-                    Console.WriteLine("{0}: {1}", kvp.Key, kvp.Value);
-                }
                 List<char> backRute = new List<char>();
                 backRute = DFS(this.latestPosition, 'K', choice);
                 rute = rute.Concat(backRute).ToList();
@@ -422,27 +412,6 @@ namespace Goblin
                 }else{
                     direction = GetAvailableDirection(vertex); 
                 }
-                Console.WriteLine(checkCanMove(vertex));
-                // if (choice == "TSP" && direction == 'U' && checkCanMove(vertex))
-                // {
-                //     Console.WriteLine("Go Up");
-                //     vertex[(this.position.row - 1, this.position.col)] = false;
-                // }
-                // else if(choice == "TSP" && direction == 'D' && checkCanMove(vertex))
-                // {
-                //     Console.WriteLine("Go Down");
-                //     vertex[(this.position.row + 1, this.position.col)] = false;
-                // }
-                // else if (choice == "TSP" && direction == 'L' && checkCanMove(vertex))
-                // {
-                //     Console.WriteLine("Go Left");
-                //     vertex[(this.position.row, this.position.col - 1)] = false;
-                // }
-                // else if (choice == "TSP" && direction == 'R' && checkCanMove(vertex))
-                // {
-                //     Console.WriteLine("Go Right");
-                //     vertex[(this.position.row, this.position.col + 1)] = false;
-                // }
                 if (direction == 'L')
                 {
                     this.position.col -= 1;
@@ -496,10 +465,6 @@ namespace Goblin
                     syncHashMap(vertex);
                     temp.Clear();
                 }
-                Console.WriteLine("This is the position : ");
-                Console.WriteLine(this.position.row.ToString() + " " + this.position.col.ToString());
-                Console.WriteLine("This is the treasure latest position : ");
-                Console.WriteLine(this.latestPosition.row.ToString() + " " + this.latestPosition.col.ToString());
                 vertex[this.position] = true;
             }
             return rute;
