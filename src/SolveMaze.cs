@@ -8,21 +8,20 @@ namespace Goblin
     public class SolveMaze
     {
         private const int MAX_ALLOWED_PASS_STARTPOINT = 2; // Maximum allowed to pass start point ('K')
-        private readonly char[,] maze;         // Maze map configuration
-        private readonly int totalTreasure;    // Total treasure inside
+        private char[,] maze;         // Maze map configuration
         private (int row, int col) startPoint; // Start point
         private (int row, int col) position;   // Goblin position
         private int totalPassedStartPoint = 0; // passed start point counter
         private bool[,] marker;                // Marker for teleport
         private HashSet<List<(int row, int col)>> visitedNodes = new HashSet<List<(int row, int col)>>(); // Goblin's Visited Nodes
-        private List<char> finalRoute = new List<char>();    // Goblin's final route to all treasures
         private List<Point> positionHistory = new List<Point>(); // Goblin's position history
 
         // Constuctor
-        public SolveMaze(int totalTreasure, char[,] maze)
+        public SolveMaze(char[,] maze)
         {
-            this.totalTreasure = totalTreasure;
-            this.maze = maze;
+            this.maze = new char[maze.GetLength(0), maze.GetLength(1)];
+            Array.Copy(maze, this.maze, maze.Length);
+
             SetupMaze();
         }
 
@@ -69,7 +68,6 @@ namespace Goblin
         {
             MoveToStartPoint();
             visitedNodes.Clear();
-            finalRoute.Clear();
             positionHistory.Clear();
         }
 
@@ -77,14 +75,16 @@ namespace Goblin
          * Path finding with breadth first search
          * @returns array containing route to all treasures
          */
-        public List<char> BreadthFirstSearch()
+        public List<char> BreadthFirstSearch(int totalTreasure, bool reset = true)
         {
             // Clear Goblin's stats for reuseable
-            ResetGoblin();
+            if (reset) {
+                ResetGoblin();
+            }
             // Bound index
             (int row, int col) maxIndex = (this.maze.GetLength(0), this.maze.GetLength(1));
             bool foundAll = false;
-
+            List<char> finalRoute = new List<char>();
             // Initiate first element & BFS Queue
             Queue<BFSNode> bfsQueue = new Queue<BFSNode>();
             List<char> usedDirection = new List<char>();
@@ -111,7 +111,6 @@ namespace Goblin
                     this.visitedNodes.Add(currentMoveData.GetVisitedVertex());
 
                     this.Move(currentMoveData.GetPosition());
-
                     // Copy previous node history
                     List<(int row, int col)> currentVisitedVertex = prevUsedVertex.ToList();
                     HashSet<(int row, int col)> recentVisitedTreasure = prevVisitedTreasure.ToHashSet();
@@ -131,12 +130,12 @@ namespace Goblin
                         List<char> temp = new List<char>(prevUsedDirection);
                         lastNode = new BFSNode(this.position, temp, lastNodeData, recentVisitedTreasure);
                     }
-
+                    Console.WriteLine("Treasure COUNT : " + recentVisitedTreasure.Count);
                     // If all treasures found
-                    if (recentVisitedTreasure.Count == this.totalTreasure)
+                    if (recentVisitedTreasure.Count == totalTreasure)
                     {
                         foundAll = true;
-                        this.finalRoute = currentMoveData.GetUsedDirection();
+                        finalRoute = currentMoveData.GetUsedDirection();
                     }
                 } 
                 else 
@@ -152,7 +151,7 @@ namespace Goblin
                     bfsQueue.Enqueue(new BFSNode(this.position, fullRoute, lastNode.GetVisitedVertex(), lastNode.GetVisitedTreasure()));                    
                 }
             }
-            return this.finalRoute;
+            return finalRoute;
         }
 
         private void ProcessAdjacent((int row, int col) maxIndex, Queue<BFSNode> bfsQueue, List<char> prevUsedDirection, BFSNode currentMoveData, List<(int row, int col)> currentVisitedVertex, HashSet<(int row, int col)> recentVisitedTreasure)
@@ -267,7 +266,7 @@ namespace Goblin
             (int row, int col) maxIndex = (this.maze.GetLength(0), this.maze.GetLength(1));
             for (int i = 0; i < this.maze.GetLength(0); i++) 
             {
-                for (int j = 0; j < this.maze.GetLength(0); j++) 
+                for (int j = 0; j < this.maze.GetLength(1); j++) 
                 {
                     if (finishPoint == (i, j)) 
                     {
@@ -482,6 +481,37 @@ namespace Goblin
                 return true;
             }
             return false;
+        }
+
+        public List<char> TSPwithBFS(int totalTreasure)
+        {
+            List<char> outRoute = this.BreadthFirstSearch(totalTreasure);
+            // Reformat maze
+            for (int i = 0; i < this.maze.GetLength(0); i++) 
+            {
+                for (int j = 0; j < this.maze.GetLength(1); j++) 
+                {
+                    if (this.maze[i, j] == 'T')
+                    {
+                        this.maze[i, j] = 'R';
+                    }
+                    if (this.maze[i, j] == 'K')
+                    {
+                        this.maze[i, j] = 'T';
+                    }
+                    if (this.position == (i, j)) 
+                    {
+                        this.maze[i, j] = 'K';
+                    }
+                    this.marker[i, j] = false;
+                }
+            }
+
+            List<char> backRoute = this.BreadthFirstSearch(1, false);
+            List<char> travelRoute = new List<char>();
+            travelRoute.AddRange(outRoute);
+            travelRoute.AddRange(backRoute);
+            return travelRoute;
         }
     }
 

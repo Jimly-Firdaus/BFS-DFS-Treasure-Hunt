@@ -4,5 +4,8 @@
     <Compile Update="GoblinForm.cs">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Update="Utility.cs">
+      <SubType>Form</SubType>
+    </Compile>
   </ItemGroup>
 </Project>
