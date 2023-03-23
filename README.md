@@ -44,11 +44,7 @@ Setelah berpikir cukup lama, Tuan Krabs tiba-tiba mengingat bahwa ketika Ia bera
 
 ### Build and Run Program (recommended)
 
-1. Clone or download this repository
-
-```shell
-https://github.com/Jimly-Firdaus/Tubes2_Goblin.git
-```
+1. Clone or download the latest release of this project
 
 2. Open terminal at root folder, run:
 
@@ -59,10 +55,6 @@ run.bat
 ### Run executable file
 
 1. Clone or download the latest release of this project
-
-```shell
-https://github.com/Jimly-Firdaus/Tubes2_Goblin.git
-```
 
 2. Open terminal at root folder, run:
 
