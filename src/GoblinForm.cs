@@ -277,7 +277,7 @@ namespace Goblin
                 else if (choiceDFS.Checked && tspCheckBox.Checked){
                     watch.Start();
                     // run tspForDFS
-                    Debug.WriteLine("TSP DFS");
+                    goblin.SolveWithDFS("TSP");
                     watch.Stop();
                 }
 
