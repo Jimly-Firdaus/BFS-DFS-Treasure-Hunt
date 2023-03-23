@@ -86,7 +86,8 @@ namespace Goblin
         public List<char> BreadthFirstSearch(int totalTreasure, bool reset = true)
         {
             // Clear Goblin's stats for reuseable
-            if (reset) {
+            if (reset) 
+            {
                 ResetGoblin();
             }
 
@@ -135,7 +136,8 @@ namespace Goblin
                     ProcessAdjacent(maxIndex, bfsQueue, prevUsedDirection, currentMoveData, currentVisitedVertex, recentVisitedTreasure);
                     
                     // Save the last node before queue is empty
-                    if (bfsQueue.Count == 0) {
+                    if (bfsQueue.Count == 0) 
+                    {
                         lastNodeData = new List<(int, int)>(currentVisitedVertex);
                         lastNodeData.Add(this.position);
                         List<char> temp = new List<char>(prevUsedDirection);
@@ -248,7 +250,8 @@ namespace Goblin
                         break;
                     }    
                 }
-                if (foundEligiblePoint) {
+                if (foundEligiblePoint) 
+                {
                     break;
                 }
             }
@@ -304,7 +307,8 @@ namespace Goblin
             bfsQueue.Enqueue(new BFSNode(goblinGhost, usedDirection, visitedVertex, visitedTreasure));
             BFSNode resultingStartNode = new BFSNode(goblinGhost, usedDirection, visitedVertex, visitedTreasure);
             bool found = false;
-            while (!found) {
+            while (!found) 
+            {
                 // Get node history
                 List<char> prevUsedDirection = bfsQueue.Peek().GetUsedDirection();
                 List<(int row, int col)> prevUsedVertex = bfsQueue.Peek().GetVisitedVertex();
