@@ -2,7 +2,7 @@
 
 Tugas Besar II IF2211 Strategi Algoritma Semester II Tahun 2022/2023
 <br>
-Pengaplikasian Algoritma BFS dan DFS dalam Menyelesaikan Persoalan Maze Treasure Hunt
+Pengaplikasian Algoritma BFS dan DFS dalam Menyelesaikan Persoalan <i>Maze Treasure Hunt</i>
 
 ## Table of Contents
 
@@ -11,7 +11,7 @@ Pengaplikasian Algoritma BFS dan DFS dalam Menyelesaikan Persoalan Maze Treasure
 - [How To Run](#how-to-run)
 - [Tech Stack](#tech-stack)
 - [Project Structure](#project-structure)
-- [Credits](#credits)
+- [Author](#author)
 
 ## General Information
 
@@ -58,7 +58,7 @@ run.bat
 
 ### Run executable file
 
-1. Clone or download this repository
+1. Clone or download the latest release of this project
 
 ```shell
 https://github.com/Jimly-Firdaus/Tubes2_Goblin.git
